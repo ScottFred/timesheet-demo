@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    div.col-xs-6.col-xs-offset-3(ng-controller='projectsCtrl')
+        h1 #{user ? user.username + "'s" : null} Projects
+        table.table(ng-cloak)
+            thead
+                tr.header
+                    th(colspan='2') Name
+            tbody
+                tr(ng-repeat='project in projects | orderBy: "name"')
+                    td
+                        a(ng-show='isEditing()', href='#', ng-click='edit(project)') {{ project.name }}
+                        div(ng-show='isEditing()')
+                            div(ng-hide='isEditing(project)') {{ project.name }}
+                            input.form-control.input-sm(ng-show='isEditing(project)', type='text', ng-model='project.name')
+                    td.edit-action
+                        div(ng-show='isEditing(project)')
+                            a.edit-action(href='#', ng-click='save()') Save
+                            a.edit-action(href='#', ng-click='cancel()') Cancel
+                            a.edit-action(href='#', ng-really-message='Are you sure you want to delete this project?' ng-really-click='delete()') Delete
+                tr(ng-hide='isEditing()')
+                    td(colspan='2')
+                        a(href='#', ng-click='add(project)') Add Project
+    div.message(ng-show='isLoading()')
+        div Loading...
+    div.message(ng-show='isSaving()', ng-cloak)
+        div Saving...
+
+block scripts
+    script(src='/javascripts/app.js')
+    script(src='/javascripts/controllers/projects.js')
+    script(src='/javascripts/directives/ng-really.js')

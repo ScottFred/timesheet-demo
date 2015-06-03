@@ -1,0 +1,102 @@
+body {
+  padding-top: 50px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    line-height: 25px;
+    padding: 0;
+}
+
+.input-sm,
+select.input-sm {
+    height: 25px;
+    line-height: 25px;
+    padding: 0 5px;
+    font-size: inherit;
+}
+
+.table > thead > tr > th {
+    border-bottom: 2px solid #aaa;
+}
+
+.table > tbody > tr.new-week > td {
+    border-top: 2px solid #aaa;
+}
+
+.table > thead > tr.header > th,
+.table > tbody > tr.header > th {
+    border-top: 2px solid #aaa !important;
+    background-color: #f7f7f7;
+}
+
+.table > tbody > tr > td.hours {
+    width: 60px;
+    text-align: right;
+}
+
+.table > tbody > tr > td.hours > p {
+    padding-right: 21px;
+    padding-top: 1px;
+    margin: 0;
+}
+
+.table > tbody > tr > td.hours > input.input-sm {
+    text-align: right;
+    padding: 0 0 0 5px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    margin-left: 5px;
+}
+
+td.row-action {
+    width: 25px;
+    text-align: center;
+}
+
+td.week-ending {
+    width: 200px;
+}
+
+td.edit-action {
+    width: 150px;
+    text-align: right;
+}
+
+a.edit-action {
+    margin-right: 8px;
+}
+
+.ui-widget {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+div.message {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+div.message > div {
+    margin: 0 auto;
+    display: inline-block;
+    color: #669;
+    background-color: #ccf;
+    border: 1px solid #99c;
+    padding: 5px;
+    width: 200px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
