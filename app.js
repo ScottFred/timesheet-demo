@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(session({ secret: 'test1234', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'timesheetdemosessionsecret', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -40,8 +40,7 @@ passport.serializeUser(account.serializeUser());
 passport.deserializeUser(account.deserializeUser());
 
 // mongoose
-//mongoose.connect('mongodb://localhost/demoapp1');
-mongoose.connect('mongodb://timesheetdemouser:mongo1234@ds043002.mongolab.com:43002/heroku_app37472928');
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
