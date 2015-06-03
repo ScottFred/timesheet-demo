@@ -40,7 +40,7 @@ passport.serializeUser(account.serializeUser());
 passport.deserializeUser(account.deserializeUser());
 
 // mongoose
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGOLAB_URI);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
