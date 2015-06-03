@@ -10,7 +10,7 @@ block content
             tbody
                 tr(ng-repeat='project in projects | orderBy: "name"')
                     td
-                        a(ng-show='isEditing()', href='#', ng-click='edit(project)') {{ project.name }}
+                        a(ng-hide='isEditing()', href='#', ng-click='edit(project)') {{ project.name }}
                         div(ng-show='isEditing()')
                             div(ng-hide='isEditing(project)') {{ project.name }}
                             input.form-control.input-sm(ng-show='isEditing(project)', type='text', ng-model='project.name')
