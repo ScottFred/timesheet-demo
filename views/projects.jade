@@ -2,7 +2,10 @@ extends layout
 
 block content
     div.col-xs-6.col-xs-offset-3(ng-controller='projectsCtrl')
-        h1 #{user ? user.username + "'s" : null} Projects
+        div
+            div.main-activity.pull-right(ng-show='isLoading() || isSaving()')
+                img(src='/images/ajax-loader.gif')
+            h1 #{user ? user.username + "'s" : null} Projects
         table.table(ng-cloak)
             thead
                 tr.header
@@ -22,12 +25,7 @@ block content
                 tr(ng-hide='isEditing()')
                     td(colspan='2')
                         a(href='#', ng-click='add(project)') Add Project
-    div.message(ng-show='isLoading()')
-        div Loading...
-    div.message(ng-show='isSaving()', ng-cloak)
-        div Saving...
 
 block scripts
-    script(src='/javascripts/app.js')
     script(src='/javascripts/controllers/projects.js')
     script(src='/javascripts/directives/ng-really.js')

@@ -78,25 +78,6 @@ a.edit-action {
     font-size: inherit;
 }
 
-div.message {
-    text-align: center;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-div.message > div {
-    margin: 0 auto;
-    display: inline-block;
-    color: #669;
-    background-color: #ccf;
-    border: 1px solid #99c;
-    padding: 5px;
-    width: 200px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
+div.main-activity {
+    margin-top: 8px;
 }

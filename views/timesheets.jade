@@ -2,7 +2,10 @@ extends layout
 
 block content
     div(ng-controller='timesheetsCtrl')
-        h1 #{user ? user.username + "'s" : null} Timesheets
+        div
+            div.main-activity.pull-right(ng-show='isLoading() || isSaving()')
+                img(src='/images/ajax-loader.gif')
+            h1 #{user ? user.username + "'s" : null} Timesheets
         table.table(ng-cloak)
             tbody
                 tr.header(ng-repeat-start='timesheet in timesheets | orderBy: "sortableWeekEnding"')
@@ -70,12 +73,8 @@ block content
                 tr
                     td.new-week(colspan='11')
                         a(href='#', ng-show='canAdd()', ng-click='add()') Add Week
-        div.message(ng-show='isLoading()')
-            div Loading...
-        div.message(ng-show='isSaving()', ng-cloak)
-            div Saving...
+
 block scripts
-    script(src='/javascripts/app.js')
     script(src='/javascripts/controllers/timesheets.js')
     script(src='/javascripts/directives/ng-datepicker.js')
     script(src='/javascripts/directives/ng-really.js')
