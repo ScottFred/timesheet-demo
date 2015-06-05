@@ -1,12 +1,18 @@
 extends layout
 block content
     .container
-        h1 Login
-        form(role='form', action="?", method="post", style='max-width: 300px;')
-            .form-group
-                input.form-control(type='text', name="username", placeholder='Enter Username')
-            .form-group
-                input.form-control(type='password', name="password", placeholder='Password')
-            button.btn.btn-primary(type='submit') Submit
-            a(href='/')
-                button.btn.btn-default(type="button") Cancel
+        .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3.col-xs-12
+            h1 Login
+            form(role='form', action="?", method="post")
+                .form-group
+                    p.help-block Enter your Timesheet Demo App credentials below to log in.  If you do not have an account you can <a href='register'>register to create one</a>.
+                .form-group
+                    label(for='username') Username
+                    input.form-control#username(type='text', name="username", placeholder='Username')
+                .form-group
+                    label(for='password') Password
+                    input.form-control#password(type='password', name="password", placeholder='Password')
+                .form-group.buttons
+                    button.btn.btn-primary(type='submit') Login
+                    a(href='/')
+                        button.btn.btn-default(type="button") Cancel

@@ -81,3 +81,7 @@ a.edit-action {
 div.main-activity {
     margin-top: 8px;
 }
+
+.buttons > button, .buttons > a {
+    margin-right: 10px;
+}

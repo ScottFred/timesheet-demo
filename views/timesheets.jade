@@ -3,7 +3,7 @@ extends layout
 block content
     div(ng-controller='timesheetsCtrl')
         div
-            div.main-activity.pull-right(ng-show='isLoading() || isSaving()')
+            .main-activity.pull-right(ng-show='isLoading() || isSaving()')
                 img(src='/images/ajax-loader.gif')
             h1 #{user ? user.username + "'s" : null} Timesheets
         table.table(ng-cloak)
