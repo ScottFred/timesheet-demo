@@ -1,3 +1,5 @@
+"use strict";
+
 angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http) {
     $scope.editingProject = null;
     $scope.originalProject = null;

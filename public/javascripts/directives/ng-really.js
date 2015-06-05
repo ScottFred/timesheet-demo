@@ -1,3 +1,5 @@
+"use strict";
+
 // https://gist.github.com/asafge/7430497
 /**
  * A generic confirmation for risky actions.

@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var security = require('./../security');
 var Project = require('../../models/project');
