@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2.col-xs-12(ng-controller='projectsCtrl')
+    .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2(ng-controller='projectsCtrl')
         div
             .main-activity.pull-right(ng-show='isLoading() || isSaving()')
                 img(src='/images/ajax-loader.gif')

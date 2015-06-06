@@ -1,18 +1,6 @@
 extends layout
 block content
     .container
-        .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3.col-xs-12
+        .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3
             h1 Register
-            form(role='form', action="?", method="post")
-                .form-group
-                    p.help-block Choose a username and password and click Register to create a Timesheet Demo App account.
-                .form-group
-                    label(for='username') Username
-                    input.form-control#username(type='text', name="username", placeholder='Username')
-                .form-group
-                    label(for='password') Password
-                    input.form-control#password(type='password', name="password", placeholder='Password')
-                .form-group.buttons
-                    button.btn.btn-primary(type='submit') Register
-                    a(href='/')
-                        button.btn.btn-default(type="button") Cancel
+            include ./includes/register.jade

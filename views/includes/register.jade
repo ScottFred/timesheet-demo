@@ -1,0 +1,13 @@
+form(role='form', action="/auth/register", method="post")
+    .form-group
+        p.help-block Choose a username and password and click Register to create a Timesheet Demo App account.
+    .form-group
+        label(for='username') Username
+        input.form-control#username(type='text', name="username", placeholder='Username')
+    .form-group
+        label(for='password') Password
+        input.form-control#password(type='password', name="password", placeholder='Password')
+    .form-group.buttons
+        button.btn.btn-primary(type='submit') Register
+        a(href='/')
+            button.btn.btn-default(type="button") Cancel

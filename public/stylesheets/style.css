@@ -85,3 +85,50 @@ div.main-activity {
 .buttons > button, .buttons > a {
     margin-right: 10px;
 }
+
+@media(max-width:767px) {
+    .box {
+        padding: 0 0 20px 0;
+    }
+}
+
+@media(min-width:768px) {
+    .box:first-child {
+        padding: 0 10px 0 0;
+    }
+    .box {
+        padding: 0 0 0 10px;
+    }
+}
+
+.box > div {
+    border: 1px solid #999;
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+ul.tech {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+ul.tech > li {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    display: inline-block;
+}
+
+.jumbotron {
+    background: inherit;
+}
+
+footer {
+    background: #222;
+    color: #9d9d9d;
+    margin-top:100px;
+    padding: 10px 50px;
+    display: none;
+}
