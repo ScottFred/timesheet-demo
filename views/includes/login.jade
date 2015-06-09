@@ -1,6 +1,7 @@
 form(role='form', action="/auth/login", method="post")
     .form-group
         p.help-block Enter your Timesheet Demo App credentials below to log in.  If you do not have an account you can <a href='/auth/register'>register to create one</a>.
+        include ./error-alert.jade
     .form-group
         label(for='username') Username
         input.form-control#username(type='text', name="username", placeholder='Username')

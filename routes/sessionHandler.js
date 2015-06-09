@@ -11,7 +11,7 @@ module.exports.postRegister = function (req, res) {
     account.register(new account({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) {
             console.log(err);
-            return res.render('register', { account : account });
+            return res.render('register', { errors: [err.message] });
         }
         passport.authenticate('local')(req, res, function () {
             return res.redirect(req.query.from || '/');
