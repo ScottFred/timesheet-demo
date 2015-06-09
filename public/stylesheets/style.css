@@ -132,3 +132,16 @@ footer {
     padding: 10px 50px;
     display: none;
 }
+
+.alert > .glyphicon {
+    float: left;
+    padding-top: 2px;
+}
+
+.alert > ul {
+    padding-left: 20px;
+}
+
+.alert > ul > li {
+    list-style: none;
+}

@@ -1,6 +1,6 @@
 - if (errors && errors.length > 0)
     .alert.alert-danger(role='alert')
-        strong The following error(s) occurred:
+        span.glyphicon.glyphicon-exclamation-sign(aria-hidden='true')
         ul
             - each error in errors
                 li= error

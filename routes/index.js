@@ -9,7 +9,7 @@ function requireAuthentication(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/auth/login?from=' + req.originalUrl);
+    sessionHandler.redirectToLogin(req, res);
 }
 
 var express = require('express');
