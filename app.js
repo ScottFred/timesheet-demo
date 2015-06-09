@@ -30,10 +30,7 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', require('./routes/index'));
-app.use('/auth', require('./routes/auth'));
-app.use('/api/projects', require('./routes/api/projects'));
-app.use('/api/timesheets', require('./routes/api/timesheets'));
+app.use('/', require('./routes'));
 
 // passport config
 var account = require('./models/account');

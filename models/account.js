@@ -1,14 +1,13 @@
 "use strict";
 
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
-var Account = new Schema({
+var accountSchema = new mongoose.Schema({
     username: String,
     password: String
 });
 
-Account.plugin(passportLocalMongoose);
+accountSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('Account', Account);
+module.exports = mongoose.model('Account', accountSchema);

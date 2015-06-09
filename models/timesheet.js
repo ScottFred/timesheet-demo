@@ -1,9 +1,8 @@
 "use strict";
 
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var timesheetSchema = new Schema({
+var timesheetSchema = new mongoose.Schema({
     username: String,
     weekEnding: Date,
     projects: [{
@@ -12,4 +11,4 @@ var timesheetSchema = new Schema({
     }]
 });
 
-module.exports = mongoose.model('Timesheet', timesheetSchema);
+module.exports = mongoose.model('timesheets', timesheetSchema);

@@ -35,7 +35,7 @@ block content
                         a(href='#', title='Delete Row', ng-click='deleteProject(timesheet, timesheet.projects[0])')
                             span.glyphicon.glyphicon-minus-sign(aria-hidden='true')
                     td(ng-show='isEditing(timesheet)')
-                        select.form-control.input-sm(placeholder="Project", ng-options='p.name as p.name for p in projects', ng-model='timesheet.projects[0].name')
+                        select.form-control.input-sm(placeholder="projects", ng-options='p.name as p.name for p in projects', ng-model='timesheet.projects[0].name')
                             option
                     td.hours(ng-hide='isEditing(timesheet)', ng-repeat='day in [0,1,2,3,4,5,6]')
                         p {{timesheet.projects[0].hours[day]}}

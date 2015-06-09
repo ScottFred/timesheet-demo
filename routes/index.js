@@ -1,28 +1,41 @@
 "use strict";
 
+var sessionHandler = require('./sessionHandler');
+var contentHandler = require('./contentHandler');
+var projectsApiHandler = require('./projectsApiHandler');
+var timesheetsApiHandler = require('./timesheetsApiHandler');
+
+function requireAuthentication(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/auth/login?from=' + req.originalUrl);
+}
+
 var express = require('express');
 var router = express.Router();
-var security = require('./security');
 
-router.get('/', function (req, res) {
-    if (req.isAuthenticated()) {
-        res.render('timesheets', { user : req.user });
-    }
-    else {
-        res.render('index', { user : req.user });
-    }
-});
+router.get('/', contentHandler.getMain);
+router.get('/projects', requireAuthentication, contentHandler.getProjects);
+router.get('/about', contentHandler.getAbout);
+router.get('/contact', contentHandler.getContact);
 
-router.get('/projects', security.requireAuthentication, function (req, res) {
-    res.render('projects', { user : req.user });
-});
+router.get('/auth/register', sessionHandler.getRegister);
+router.post('/auth/register', sessionHandler.postRegister);
+router.get('/auth/login', sessionHandler.getLogin);
+router.post('/auth/login', sessionHandler.postLogin);
+router.get('/auth/logout', sessionHandler.getLogout);
 
-router.get('/about', function (req, res) {
-    res.render('about', { user : req.user });
-});
+router.get('/api/projects', requireAuthentication, projectsApiHandler.getProjects);
+router.get('/api/projects/:id', requireAuthentication, projectsApiHandler.getProject);
+router.post('/api/projects', requireAuthentication, projectsApiHandler.postProject);
+router.put('/api/projects/:id', requireAuthentication, projectsApiHandler.putProject);
+router.delete('/api/projects/:id', requireAuthentication, projectsApiHandler.deleteProject);
 
-router.get('/contact', function (req, res) {
-    res.render('contact', { user : req.user });
-});
+router.get('/api/timesheets', requireAuthentication, timesheetsApiHandler.getTimesheets);
+router.get('/api/timesheets/:id', requireAuthentication, timesheetsApiHandler.getTimesheet);
+router.post('/api/timesheets', requireAuthentication, timesheetsApiHandler.postTimesheet);
+router.put('/api/timesheets/:id', requireAuthentication, timesheetsApiHandler.putTimesheet);
+router.delete('/api/timesheets/:id', requireAuthentication, timesheetsApiHandler.deleteTimesheet);
 
 module.exports = router;

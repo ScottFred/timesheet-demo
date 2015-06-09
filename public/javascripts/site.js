@@ -6,8 +6,6 @@ function onWindowResize() {
     var footerHeight = $('body > footer').height();
     var footerMargin = 100;
     var h = $(window).height();
-    console.log("nav = " + navHeight);
-    console.log("footer = " + footerHeight);
     $('main').css("min-height", h - navHeight - navMargin - footerHeight - footerMargin);
 }
 
