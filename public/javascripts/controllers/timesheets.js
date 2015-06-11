@@ -4,8 +4,6 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function($scope, $ht
     var editingTimesheet = null;
     var originalTimesheet = null;
 
-    console.log(toasty);
-
     function getDateString(d) {
         var we = new Date(d);
         return (we.getMonth() + 1) + '/' + we.getDate() + '/' +  we.getFullYear();

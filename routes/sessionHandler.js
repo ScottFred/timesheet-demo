@@ -4,7 +4,7 @@ var passport = require('passport');
 var account = require('../models/account');
 
 module.exports.getRegister = function(req, res) {
-    res.render('register');
+    res.render('register', { from: req.query.from });
 };
 
 module.exports.postRegister = function(req, res) {
@@ -13,7 +13,7 @@ module.exports.postRegister = function(req, res) {
             console.log(err);
             return res.render('register', { errors: [err.message] });
         }
-        passport.authenticate('local')(req, res, function () {
+        passport.authenticate('local')(req, res, function() {
             res.redirect(req.query.from || '/');
         });
     });
@@ -21,15 +21,17 @@ module.exports.postRegister = function(req, res) {
 
 module.exports.getLogin = function(req, res) {
     if (req.query.failed) {
-        res.render('login', { errors: ['Invalid Username or Password']});
+        res.render('login', { from: req.query.from, errors: ['Invalid Username or Password']});
     }
     else {
-        res.render('login');
+        res.render('login', { from: req.query.from });
     }
 };
 
 module.exports.postLogin = function(req, res) {
-    return passport.authenticate('local', { failureRedirect: '/auth/login?failed=1&from=' + req.query.from || '/' })(req, res, function () {
+    return passport.authenticate('local', {
+        failureRedirect: '/auth/login?failed=1&from=' + req.query.from || '/'
+    })(req, res, function() {
         res.redirect(req.query.from || '/');
     });
 };

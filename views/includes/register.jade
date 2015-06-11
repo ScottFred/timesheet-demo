@@ -1,4 +1,4 @@
-form(role='form', action="/auth/register", method="post")
+form(role='form', action="/auth/register?from=#{from || ''}", method="post")
     .form-group
         p.help-block Choose a username and password and click Register to create a new Timesheet Demo App account.
         include ./error-alert.jade
