@@ -18,6 +18,22 @@ function validateWeekEnding(req, res, timesheet) {
     return true;
 }
 
+function validateUniqueWeekEnding(req, res, timesheet) {
+    if (timesheet) {
+        res.status(400).send('Timesheet for this week already exists');
+        return false;
+    }
+    return true;
+}
+
+function findDuplicateWeekEnding(timesheet, callback) {
+    timesheets.findOne({
+        'username' : timesheet.username,
+        'weekEnding' : timesheet.weekEnding,
+        '_id' : { $ne : timesheet._id }
+    }, callback);
+}
+
 module.exports.getTimesheets = function(req, res) {
     timesheets.find({'username': req.user.username}, function (err, timesheets) {
         res.json(timesheets)
@@ -35,9 +51,12 @@ module.exports.postTimesheet = function(req, res) {
     var timesheet = new timesheets(req.body);
     timesheet.username = req.user.username;
     if (!validateWeekEnding(req, res, timesheet)) return;
-    timesheet.save(function (err, data) {
-        console.log(err ? err : 'Created timesheet');
-        res.send(data);
+    findDuplicateWeekEnding(timesheet, function(err, data) {
+        if (!validateUniqueWeekEnding(req, res, data)) return;
+        timesheet.save(function (err, data) {
+            console.log(err ? err : 'Created timesheet');
+            res.send(data);
+        });
     });
 };
 
@@ -48,9 +67,12 @@ module.exports.putTimesheet = function(req, res) {
         timesheet.projects = req.body.projects;
         if (!validateUsername(req, res, timesheet)) return;
         if (!validateWeekEnding(req, res, timesheet)) return;
-        timesheet.save(function (err, data) {
-            console.log(err ? err : 'Updated timesheet');
-            res.send(data);
+        findDuplicateWeekEnding(timesheet, function(err, data) {
+            if (!validateUniqueWeekEnding(req, res, data)) return;
+            timesheet.save(function (err, data) {
+                console.log(err ? err : 'Updated timesheet');
+                res.send(data);
+            });
         });
     });
 };
