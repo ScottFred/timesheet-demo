@@ -27,6 +27,9 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
 
     $http.get('api/projects')
         .success(function(data) {
+            data.forEach(function(d) {
+                d.sortableName = d.name;
+            });
             $scope.projects = data;
         })
         .error(function(data, status) {
@@ -43,6 +46,7 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
         if (project._id) {
             $http.put('api/projects/' + project._id, project)
                 .success(function(data) {
+                    project.sortableName = data.name;
                     project.name = data.name;
                     project.isSaving = false;
                 })
@@ -55,6 +59,7 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
             $http.post('api/projects', project)
                 .success(function(data) {
                     project._id = data._id;
+                    project.sortableName = data.name;
                     project.name = data.name;
                     project.isSaving = false;
                 })

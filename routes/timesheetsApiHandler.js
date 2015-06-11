@@ -35,7 +35,7 @@ function findDuplicateWeekEnding(timesheet, callback) {
 }
 
 module.exports.getTimesheets = function(req, res) {
-    timesheets.find({'username': req.user.username}, function (err, timesheets) {
+    timesheets.find({'username' : req.user.username}, {}, {'sort' : 'weekEnding'}, function (err, timesheets) {
         res.json(timesheets)
     });
 };

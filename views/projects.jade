@@ -11,7 +11,7 @@ block content
                 tr.header
                     th(colspan='2') Name
             tbody
-                tr(ng-repeat='project in projects | orderBy: "name"')
+                tr(ng-repeat='project in projects | orderBy: "sortableName"')
                     td
                         a.clickable(ng-hide='isEditing()', ng-click='edit(project)') {{ project.name }}
                         div(ng-show='isEditing()')

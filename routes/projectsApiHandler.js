@@ -26,7 +26,7 @@ function findDuplicateName(project, callback) {
 }
 
 module.exports.getProjects = function (req, res) {
-    projects.find({'username': req.user.username}, function (err, projects) {
+    projects.find({'username' : req.user.username}, {}, {'sort' : 'name'}, function (err, projects) {
         res.json(projects)
     });
 };
