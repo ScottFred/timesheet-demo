@@ -10,7 +10,6 @@ function onWindowResize() {
 }
 
 $(function() {
-
     $(window).resize(onWindowResize);
     $('footer').show();
 });

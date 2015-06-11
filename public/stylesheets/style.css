@@ -145,3 +145,10 @@ footer {
 .alert > ul > li {
     list-style: none;
 }
+
+a.clickable {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
