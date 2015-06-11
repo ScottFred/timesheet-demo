@@ -2,6 +2,29 @@
 
 var projects = require('../models/project');
 
+function validateUsername(req, res, project) {
+    if (project.username !== req.user.username) {
+        res.status(404).send('Project Not Found');
+        return false;
+    }
+    return true;
+}
+
+function validateUniqueName(req, res, project) {
+    if (project) {
+        res.status(400).send('Project already exists: ' + project.name);
+        return false;
+    }
+    return true;
+}
+
+function findDuplicateName(project, callback) {
+    projects.findOne({
+        'name' : project.name,
+        '_id' : { $ne : project._id }
+    }, callback);
+}
+
 module.exports.getProjects = function (req, res) {
     projects.find({'username': req.user.username}, function (err, projects) {
         res.json(projects)
@@ -10,9 +33,7 @@ module.exports.getProjects = function (req, res) {
 
 module.exports.getProject = function (req, res) {
     projects.findById(req.params.id, function (err, project) {
-        if (project.username !== req.user.username) {
-            return res.status(404).send('Not Found');
-        }
+        if (!validateUsername(req, res, project)) return;
         res.json(data);
     });
 };
@@ -20,31 +41,33 @@ module.exports.getProject = function (req, res) {
 module.exports.postProject = function (req, res) {
     var project = new projects(req.body);
     project.username = req.user.username;
-    project.save(function (err, data) {
-        console.log(err ? err : 'Created project');
-        res.send(data);
+    findDuplicateName(project, function(err, data) {
+        if (!validateUniqueName(req, res, data)) return;
+        project.save(function (err, data) {
+            console.log(err ? err : 'Created project');
+            res.send(data);
+        });
     });
 };
 
 module.exports.putProject = function (req, res) {
     console.log(req.body);
     projects.findById(req.params.id, function (err, project) {
-        if (project.username !== req.user.username) {
-            return res.status(404).send('Not Found');
-        }
         project.name = req.body.name;
-        project.save(function (err, data) {
-            console.log(err ? err : 'Updated project');
-            res.send(data);
+        if (!validateUsername(req, res, project)) return;
+        findDuplicateName(project, function(err, data) {
+            if (!validateUniqueName(req, res, data)) return;
+            project.save(function (err, data) {
+                console.log(err ? err : 'Updated project');
+                res.send(data);
+            });
         });
     });
 };
 
 module.exports.deleteProject = function (req, res) {
     projects.findById(req.params.id, function (err, project) {
-        if (project.username !== req.user.username) {
-            return res.status(404).send('Not Found');
-        }
+        if (!validateUsername(req, res, project)) return;
         project.remove(function (err) {
             console.log(err ? err : 'Deleted project');
             res.send('');
