@@ -4,9 +4,10 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function($scope, $ht
     var editingTimesheet = null;
     var originalTimesheet = null;
 
+    // Parses a date string of the format yyyy-mm-dd
     function getDateString(d) {
-        var we = new Date(d);
-        return (we.getMonth() + 1) + '/' + we.getDate() + '/' +  we.getFullYear();
+        var parts = d.match(/(\d+)/g);
+        return parseInt(parts[1]) + '/' + parseInt(parts[2]) + '/' + parts[0];
     }
 
     function beginEdit(timesheet) {
