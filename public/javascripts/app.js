@@ -1,3 +1,3 @@
 "use strict";
 
-angular.module('timesheetApp', []);
+angular.module('timesheetApp', ['toasty']);

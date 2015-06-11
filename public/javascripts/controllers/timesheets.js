@@ -1,8 +1,10 @@
 "use strict";
 
-angular.module('timesheetApp').controller('timesheetsCtrl', function ($scope, $http) {
+angular.module('timesheetApp').controller('timesheetsCtrl', function($scope, $http, toasty) {
     var editingTimesheet = null;
     var originalTimesheet = null;
+
+    console.log(toasty);
 
     function getDateString(d) {
         var we = new Date(d);
@@ -19,13 +21,24 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function ($scope, $h
         originalTimesheet = null;
     }
 
+    function displayError(title, data) {
+        toasty.pop.error({
+            title: title,
+            msg: data,
+            showClose: true,
+            clickToClose: true,
+            timeout: 0
+        });
+        console.log(title + ': ' + data);
+    }
+
     $http.get('api/projects')
         .success(function(data) {
             $scope.projects = data;
         })
         .error(function(data, status) {
             $scope.projects = [];
-            console.log('Get Error');
+            displayError('Error Loading Projects', data);
         });
 
     $http.get('api/timesheets')
@@ -38,7 +51,7 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function ($scope, $h
         })
         .error(function(data, status) {
             $scope.timesheets = [];
-            console.log('Get Error');
+            displayError('Error Loading Timesheets', data);
         });
 
     $scope.calcTotalHoursByDay = function (timesheet, day) {
@@ -80,7 +93,7 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function ($scope, $h
                     timesheet.isSaving = false;
                 })
                 .error(function(data, status) {
-                    console.log('Put Error: ' + data);
+                    displayError('Error Saving Timesheet', data);
                     timesheet.isSaving = false;
                 });
         }
@@ -94,7 +107,7 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function ($scope, $h
                     timesheet.isSaving = false;
                 })
                 .error(function(data, status) {
-                    console.log('Post Error: ' + data);
+                    displayError('Error Saving Timesheet', data);
                     timesheet.isSaving = false;
                 });
         }
@@ -126,7 +139,7 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function ($scope, $h
                     $scope.timesheets.splice(index, 1);
                 })
                 .error(function(data, status) {
-                    console.log('Delete Error: ' + data);
+                    displayError('Error Deleting Timesheet', data);
                     timesheet.isSaving = false;
                 });
         }

@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http) {
+angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http, toasty) {
     $scope.editingProject = null;
     $scope.originalProject = null;
 
@@ -14,13 +14,24 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
         $scope.originalProject = null;
     }
 
+    function displayError(title, data) {
+        toasty.pop.error({
+            title: title,
+            msg: data,
+            showClose: true,
+            clickToClose: true,
+            timeout: 0
+        });
+        console.log(title + ': ' + data);
+    }
+
     $http.get('api/projects')
         .success(function(data) {
             $scope.projects = data;
         })
         .error(function(data, status) {
             $scope.projects = [];
-            console.log('Get Error');
+            displayError('Error Loading Projects', data);
         });
 
     $scope.edit = beginEdit;
@@ -36,7 +47,7 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
                     project.isSaving = false;
                 })
                 .error(function(data, status) {
-                    console.log('Put Error: ' + data);
+                    displayError('Error Saving Project', data);
                     project.isSaving = false;
                 });
         }
@@ -48,7 +59,7 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
                     project.isSaving = false;
                 })
                 .error(function(data, status) {
-                    console.log('Post Error: ' + data);
+                    displayError('Error Saving Project', data);
                     project.isSaving = false;
                 });
         }
@@ -80,7 +91,7 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
                     $scope.projects.splice(index, 1);
                 })
                 .error(function(data, status) {
-                    console.log('Delete Error: ' + data);
+                    displayError('Error Deleting Project', data);
                     project.isSaving = false;
                 });
         }
