@@ -30,6 +30,24 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function($scope, $ht
         });
         console.log(title + ': ' + data);
     }
+    function displayWarning(title, data) {
+        toasty.pop.warning({
+            title: title,
+            msg: data,
+            showClose: true,
+            clickToClose: true,
+            timeout: 5000
+        });
+        console.log(title + ': ' + data);
+    }
+
+    function validateRequiredWeekEnding(timesheet) {
+        if (!timesheet.weekEnding || timesheet.weekEnding === '' || timesheet.weekEnding.trim() === '') {
+            displayWarning('Week ending date is required');
+            return false;
+        }
+        return true;
+    }
 
     $http.get('api/projects')
         .success(function(data) {
@@ -82,6 +100,7 @@ angular.module('timesheetApp').controller('timesheetsCtrl', function($scope, $ht
     $scope.save = function () {
         console.log('Saving');
         var timesheet = editingTimesheet;
+        if (!validateRequiredWeekEnding(timesheet)) return;
         timesheet.isSaving = true;
         if (timesheet._id) {
             $http.put('api/timesheets/' + timesheet._id, timesheet)

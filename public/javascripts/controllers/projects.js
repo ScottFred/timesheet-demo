@@ -25,6 +25,25 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
         console.log(title + ': ' + data);
     }
 
+    function displayWarning(title, data) {
+        toasty.pop.warning({
+            title: title,
+            msg: data,
+            showClose: true,
+            clickToClose: true,
+            timeout: 5000
+        });
+        console.log(title + ': ' + data);
+    }
+
+    function validateRequiredName(project) {
+        if (!project.name || project.name === '' || project.name.trim() === '') {
+            displayWarning('Project name is required');
+            return false;
+        }
+        return true;
+    }
+
     $http.get('api/projects')
         .success(function(data) {
             data.forEach(function(d) {
@@ -42,6 +61,7 @@ angular.module('timesheetApp').controller('projectsCtrl', function($scope, $http
     $scope.save = function () {
         console.log('Saving');
         var project = $scope.editingProject;
+        if (!validateRequiredName(project)) return;
         project.isSaving = true;
         if (project._id) {
             $http.put('api/projects/' + project._id, project)

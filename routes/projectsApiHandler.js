@@ -4,7 +4,15 @@ var projects = require('../models/project');
 
 function validateUsername(req, res, project) {
     if (project.username !== req.user.username) {
-        res.status(404).send('Project Not Found');
+        res.status(404).send('Project not found');
+        return false;
+    }
+    return true;
+}
+
+function validateName(req, res, project) {
+    if (!project.name || project.name === '' || project.name.trim() === '') {
+        res.status(400).send('Project name is required');
         return false;
     }
     return true;
@@ -41,6 +49,7 @@ module.exports.getProject = function (req, res) {
 module.exports.postProject = function (req, res) {
     var project = new projects(req.body);
     project.username = req.user.username;
+    if (!validateName(req, res, project)) return;
     findDuplicateName(project, function(err, data) {
         if (!validateUniqueName(req, res, data)) return;
         project.save(function (err, data) {
@@ -54,6 +63,7 @@ module.exports.putProject = function (req, res) {
     console.log(req.body);
     projects.findById(req.params.id, function (err, project) {
         project.name = req.body.name;
+        if (!validateName(req, res, project)) return;
         if (!validateUsername(req, res, project)) return;
         findDuplicateName(project, function(err, data) {
             if (!validateUniqueName(req, res, data)) return;

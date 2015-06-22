@@ -4,15 +4,15 @@ var timesheets = require('../models/timesheet');
 
 function validateUsername(req, res, timesheet) {
     if (timesheet.username !== req.user.username) {
-        res.status(404).send('Timesheet Not Found');
+        res.status(404).send('Timesheet not found');
         return false;
     }
     return true;
 }
 
 function validateWeekEnding(req, res, timesheet) {
-    if (timesheet.weekEnding.getDay() !== 6) {
-        res.status(400).send('Invalid Week Ending Date');
+    if (!timesheet.weekEnding || timesheet.weekEnding.getDay() !== 6) {
+        res.status(400).send('Invalid week ending date');
         return false;
     }
     return true;
