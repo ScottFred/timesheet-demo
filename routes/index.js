@@ -18,7 +18,6 @@ var router = express.Router();
 router.get('/', contentHandler.getMain);
 router.get('/projects', requireAuthentication, contentHandler.getProjects);
 router.get('/about', contentHandler.getAbout);
-router.get('/contact', contentHandler.getContact);
 
 router.get('/auth/register', sessionHandler.getRegister);
 router.post('/auth/register', sessionHandler.postRegister);
