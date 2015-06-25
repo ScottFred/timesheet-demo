@@ -10,6 +10,7 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var PassportLocalStrategy = require('passport-local').Strategy;
+var PassportBasicStrategy = require('passport-http').BasicStrategy;
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use('/', require('./routes'));
 // passport config
 var account = require('./models/account');
 passport.use(new PassportLocalStrategy(account.authenticate()));
+passport.use(new PassportBasicStrategy(account.authenticate()));
 passport.serializeUser(account.serializeUser());
 passport.deserializeUser(account.deserializeUser());
 
