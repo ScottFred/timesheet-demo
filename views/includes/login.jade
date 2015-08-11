@@ -4,9 +4,9 @@ form(role='form', action="/auth/login?from=#{from || ''}", method='post')
         include ./error-alert.jade
     .form-group
         label(for='username') Username
-        input.form-control#username(type='text', name='username', placeholder='Username', autocomplete='off')
+        input.form-control#username(type='text', name='username', placeholder='Username', autocomplete='new-username')
     .form-group
         label(for='password') Password
-        input.form-control#password(type='password', name='password', placeholder='Password', autocomplete='off')
+        input.form-control#password(type='password', name='password', placeholder='Password', autocomplete='new-password')
     .form-group.buttons
         button.btn.btn-primary(type='submit') Login
