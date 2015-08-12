@@ -21,17 +21,33 @@ select.input-sm {
 }
 
 .table > thead > tr > th {
-    border-bottom: 2px solid #aaa;
+    border-bottom: 2px solid #459F6A;
 }
 
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    border-top: 1px solid #ddd ;
+}
+
+
 .table > tbody > tr.new-week > td {
-    border-top: 2px solid #aaa;
+    border-top: 2px solid #6491A5;
+    padding-top: 1px;
+}
+
+.table > tbody > tr > td {
+    padding-top: 1px;
 }
 
 .table > thead > tr.header > th,
 .table > tbody > tr.header > th {
-    border-top: 2px solid #aaa !important;
-    background-color: #f7f7f7;
+    border-top: 2px solid #6491A5 !important;
+    background-color: #9BBDCC;
+    padding: 0 5px;
 }
 
 .table > tbody > tr > td.hours {
@@ -102,8 +118,7 @@ div.main-activity {
 }
 
 .box > div {
-    border: 1px solid #999;
-    background: #fff;
+    background: #D7F3B5;
     border-radius: 5px;
     padding: 10px 20px;
 }
@@ -116,13 +131,26 @@ ul.tech {
 
 ul.tech > li {
     list-style: none;
-    padding: 20px;
+    padding: 10px 25px;
     margin: 0;
     display: inline-block;
 }
 
+ul.tech > li > a > img {
+    max-width: 150px;
+}
+
 .jumbotron {
     background: inherit;
+    margin-bottom: 0;
+}
+
+.jumbotron h1 {
+    font-size: 45px;
+}
+
+h1 {
+    font-size: 30px;
 }
 
 footer {
@@ -150,4 +178,16 @@ a.clickable {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.navbar-inverse {
+    background-color: #14485F;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ddd;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #ddd;
 }

@@ -3,29 +3,34 @@ extends layout
 block content
     .container
         .jumbotron
-            h1 Welcome to the Cinlogic Timesheet Demo App
+            h1.text-center Welcome to the Cinlogic Timesheet Demo App
             p.text-center A simple demo app created using:
             ul.tech
-                li
+                li#tech1(style='opacity:0')
                     a(href='http://mongodb.org', title='MongoDB')
                         img(src='/images/mongodb-small.jpg', alt='MongoDB')
-                li
+                li#tech2(style='opacity:0')
                     a(href='http://expressjs.com', title='Express')
                         img(src='/images/express-small.png', alt='Express')
-                li
+                li#tech3(style='opacity:0')
                     a(href='http://angularjs.org', title='AngularJS')
                         img(src='/images/angularjs.png', alt='AngularJS')
-                li
+                li#tech4(style='opacity:0')
                     a(href='http://nodejs.org', title='NodeJS')
                         img(src='/images/nodejs-small.png', alt='NodeJS')
     .container
-        .col-sm-6.box
+        .col-sm-5.col-sm-offset-1.box
             div
                 h2 Existing User Login
                 include ./includes/login.jade
-        .col-sm-6.box
+        .col-sm-5.box
             div
                 h2 New User Registration
                 include ./includes/register.jade
 
-         
+block scripts
+    script.
+        $('#tech1').delay(0).fadeTo(400, 1.0);
+        $('#tech2').delay(100).fadeTo(400, 1.0);
+        $('#tech3').delay(200).fadeTo(400, 1.0);
+        $('#tech4').delay(300).fadeTo(400, 1.0);
