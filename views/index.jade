@@ -4,20 +4,20 @@ block content
     .container
         .jumbotron
             h1.text-center Welcome to the Cinlogic Timesheet Demo App
-            p.text-center A simple demo app created using:
+            p#subtitle.text-center(style='opacity:0') A simple demo app created using:
             ul.tech
-                li#tech1(style='opacity:0')
+                li#tech1(style='opacity:0; min-height: 100px;')
                     a(href='http://mongodb.org', title='MongoDB')
-                        img(src='/images/mongodb-small.jpg', alt='MongoDB')
-                li#tech2(style='opacity:0')
+                        img(src='/images/mongodb-small.jpg', alt='MongoDB', height='43', width='150')
+                li#tech2(style='opacity:0; min-height: 100px;')
                     a(href='http://expressjs.com', title='Express')
-                        img(src='/images/express-small.png', alt='Express')
-                li#tech3(style='opacity:0')
+                        img(src='/images/express-small.png', alt='Express', height='46', width='150', style='margin-top: 8px;')
+                li#tech3(style='opacity:0; min-height: 100px;')
                     a(href='http://angularjs.org', title='AngularJS')
-                        img(src='/images/angularjs.png', alt='AngularJS')
-                li#tech4(style='opacity:0')
+                        img(src='/images/angularjs.png', alt='AngularJS', height='150', width='150')
+                li#tech4(style='opacity:0; min-height: 100px;')
                     a(href='http://nodejs.org', title='NodeJS')
-                        img(src='/images/nodejs-small.png', alt='NodeJS')
+                        img(src='/images/nodejs-small.png', alt='NodeJS', height='81', width='150')
     .container
         .col-sm-5.col-sm-offset-1.box
             div
@@ -30,7 +30,10 @@ block content
 
 block scripts
     script.
-        $('#tech1').delay(0).fadeTo(400, 1.0);
-        $('#tech2').delay(100).fadeTo(400, 1.0);
-        $('#tech3').delay(200).fadeTo(400, 1.0);
-        $('#tech4').delay(300).fadeTo(400, 1.0);
+        $(window).load(function() {
+            $('#subtitle').delay(500).fadeTo(500, 1.0);
+            $('#tech1').delay(900).fadeTo(500, 1.0);
+            $('#tech2').delay(1300).fadeTo(500, 1.0);
+            $('#tech3').delay(1700).fadeTo(500, 1.0);
+            $('#tech4').delay(2100).fadeTo(500, 1.0);
+        });
