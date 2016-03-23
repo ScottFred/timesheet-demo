@@ -1,47 +1,63 @@
 "use strict";
 
-var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var PassportLocalStrategy = require('passport-local').Strategy;
 
 var config = require('./config');
 
+// express
+var express = require('express');
 var app = express();
+
+// mongoose
+var mongoose = require('mongoose');
+mongoose.connect(config.mongoUrl);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
+// favicon
+var favicon = require('serve-favicon');
 app.use(favicon(path.join(__dirname, '../dist/assets/favicon.ico')));
+
+// logger
+var logger = require('morgan');
 app.use(logger('dev'));
+
+// body parser
+var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// cookie parser
+var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-app.use(session({ secret: config.sessionSecret, resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(express.static(path.join(__dirname, '../dist')));
-
-app.use('/', require('./routes'));
-
 // passport config
+var passport = require('passport');
+var PassportLocalStrategy = require('passport-local').Strategy;
 var account = require('./models/account');
 passport.use(new PassportLocalStrategy(account.authenticate()));
 passport.serializeUser(account.serializeUser());
 passport.deserializeUser(account.deserializeUser());
 
-// mongoose
-mongoose.connect(config.mongoConnectionString);
+// session
+var session = require('express-session');
+var MongoSessionStore = require('connect-mongo')(session);
+app.use(session({
+  secret: config.session.secret,
+  store: new MongoSessionStore({url: config.session.mongoUrl}),
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// static
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// routes
+app.use('/', require('./routes'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
