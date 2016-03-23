@@ -3,20 +3,29 @@ var concat = require('gulp-concat');
 var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var nodemon = require('gulp-nodemon');
-var fs = require('fs');
+var angularTemplateCache = require('gulp-angular-templatecache');
+//var fs = require('fs');
+var addStream = require('add-stream');
+
+function prepareTemplates() {
+  return gulp.src('./client/app/**/*.tpl.html')
+    .pipe(angularTemplateCache());
+}
 
 gulp.task('app', function() {
   return gulp.src('./client/app/**/*.js')
+    .pipe(addStream.obj(prepareTemplates()))
+    .pipe(concat('app.js'))
     .pipe(ngAnnotate())
     .pipe(uglify())
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('app-dev', function() {
   return gulp.src('./client/app/**/*.js')
+    .pipe(addStream.obj(prepareTemplates()))
     .pipe(concat('app.js'))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('assets', function() {
@@ -25,7 +34,10 @@ gulp.task('assets', function() {
 });
 
 gulp.task('watch-app', function(){
-  return gulp.watch('./client/app/*.js', ['app-dev']);
+  return gulp.watch([
+    './client/app/**/*.js',
+    './client/app/**/*.tpl.html'
+  ], ['app-dev']);
 });
 
 gulp.task('watch-assets', function(){

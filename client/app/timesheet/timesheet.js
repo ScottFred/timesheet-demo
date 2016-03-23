@@ -1,216 +1,219 @@
 "use strict";
 
-angular.module('timesheetModule', ['toasty'])
-.controller('timesheetsCtrl', function($scope, $http, toasty) {
-  var editingTimesheet = null;
-  var originalTimesheet = null;
+angular
+  .module('timesheetModule', [
+    'toasty'
+  ])
+  .controller('timesheetCtrl', function($scope, $http, toasty) {
+    var editingTimesheet = null;
+    var originalTimesheet = null;
 
-  // Parses a date string of the format yyyy-mm-dd
-  function getDateString(d) {
-    var parts = d.match(/(\d+)/g);
-    return parseInt(parts[1]) + '/' + parseInt(parts[2]) + '/' + parts[0];
-  }
-
-  function beginEdit(timesheet) {
-    editingTimesheet = timesheet;
-    originalTimesheet = JSON.parse(JSON.stringify(timesheet));
-  }
-
-  function endEdit() {
-    editingTimesheet = null;
-    originalTimesheet = null;
-  }
-
-  function displayError(title, data) {
-    toasty.pop.error({
-      title: title,
-      msg: data,
-      showClose: true,
-      clickToClose: true,
-      timeout: 0
-    });
-    console.log(title + ': ' + data);
-  }
-  function displayWarning(title, data) {
-    toasty.pop.warning({
-      title: title,
-      msg: data,
-      showClose: true,
-      clickToClose: true,
-      timeout: 5000
-    });
-    console.log(title + ': ' + data);
-  }
-
-  function validateRequiredWeekEnding(timesheet) {
-    if (!timesheet.weekEnding || timesheet.weekEnding === '' || timesheet.weekEnding.trim() === '') {
-      displayWarning('Week ending date is required');
-      return false;
+    // Parses a date string of the format yyyy-mm-dd
+    function getDateString(d) {
+      var parts = d.match(/(\d+)/g);
+      return parseInt(parts[1]) + '/' + parseInt(parts[2]) + '/' + parts[0];
     }
-    return true;
-  }
 
-  $http.get('api/projects')
-    .success(function(data) {
-      $scope.projects = data;
-    })
-    .error(function(data, status) {
-      $scope.projects = [];
-      displayError('Error Loading Projects', data);
-    });
+    function beginEdit(timesheet) {
+      editingTimesheet = timesheet;
+      originalTimesheet = JSON.parse(JSON.stringify(timesheet));
+    }
 
-  $http.get('api/timesheets')
-    .success(function(data) {
-      data.forEach(function(d) {
-        d.sortableWeekEnding = d.weekEnding;
-        d.weekEnding = getDateString(d.weekEnding);
+    function endEdit() {
+      editingTimesheet = null;
+      originalTimesheet = null;
+    }
+
+    function displayError(title, data) {
+      toasty.pop.error({
+        title: title,
+        msg: data,
+        showClose: true,
+        clickToClose: true,
+        timeout: 0
       });
-      $scope.timesheets = data;
-    })
-    .error(function(data, status) {
-      $scope.timesheets = [];
-      displayError('Error Loading Timesheets', data);
-    });
-
-  $scope.calcTotalHoursByDay = function (timesheet, day) {
-    if (!timesheet.projects) return 0;
-    return timesheet.projects
-      .map(function(x) { return x.hours[day]; })
-      .reduce(function (a, b) { return a + b; });
-  };
-
-  $scope.calcTotalHoursByProject = function (project) {
-    if (!project) return 0;
-    var totalHours = 0;
-    for (var day = 0; day < 7; day++) {
-      totalHours += project.hours[day];
+      console.log(title + ': ' + data);
     }
-    return totalHours;
-  };
-
-  $scope.calcTotalHours = function (timesheet) {
-    var totalHours = 0;
-    for (var day = 0; day < 7; day++) {
-      totalHours += $scope.calcTotalHoursByDay(timesheet, day);
+    function displayWarning(title, data) {
+      toasty.pop.warning({
+        title: title,
+        msg: data,
+        showClose: true,
+        clickToClose: true,
+        timeout: 5000
+      });
+      console.log(title + ': ' + data);
     }
-    return totalHours;
-  };
 
-  $scope.edit = beginEdit;
+    function validateRequiredWeekEnding(timesheet) {
+      if (!timesheet.weekEnding || timesheet.weekEnding === '' || timesheet.weekEnding.trim() === '') {
+        displayWarning('Week ending date is required');
+        return false;
+      }
+      return true;
+    }
 
-  $scope.save = function () {
-    console.log('Saving');
-    var timesheet = editingTimesheet;
-    if (!validateRequiredWeekEnding(timesheet)) return;
-    timesheet.isSaving = true;
-    if (timesheet._id) {
-      $http.put('api/timesheets/' + timesheet._id, timesheet)
-        .success(function(data, status) {
-          timesheet.sortableWeekEnding = data.weekEnding;
-          timesheet.weekEnding = getDateString(data.weekEnding);
-          timesheet.projects = data.projects;
-          timesheet.isSaving = false;
-        })
-        .error(function(data, status) {
-          displayError('Error Saving Timesheet', data);
-          timesheet.isSaving = false;
+    $http.get('api/projects')
+      .success(function(data) {
+        $scope.projects = data;
+      })
+      .error(function(data, status) {
+        $scope.projects = [];
+        displayError('Error Loading Projects', data);
+      });
+
+    $http.get('api/timesheets')
+      .success(function(data) {
+        data.forEach(function(d) {
+          d.sortableWeekEnding = d.weekEnding;
+          d.weekEnding = getDateString(d.weekEnding);
         });
-    }
-    else {
-      $http.post('api/timesheets', timesheet)
-        .success(function(data, status) {
-          timesheet._id = data._id;
-          timesheet.sortableWeekEnding = data.weekEnding;
-          timesheet.weekEnding = getDateString(data.weekEnding);
-          timesheet.projects = data.projects;
-          timesheet.isSaving = false;
-        })
-        .error(function(data, status) {
-          displayError('Error Saving Timesheet', data);
-          timesheet.isSaving = false;
-        });
-    }
-    endEdit();
-  };
+        $scope.timesheets = data;
+      })
+      .error(function(data, status) {
+        $scope.timesheets = [];
+        displayError('Error Loading Timesheets', data);
+      });
 
-  $scope.cancel = function() {
-    if (!editingTimesheet) return;
-    var index = $scope.timesheets.indexOf(editingTimesheet);
-    if (editingTimesheet._id) {
-      // Cancelled editing existing timesheet... Restore the original timesheet
-      $scope.timesheets[index] = originalTimesheet;
-    }
-    else {
-      // Cancelled adding new timesheet... Remove the new timesheet
-      $scope.timesheets.splice(index, 1);
-    }
-    endEdit();
-  };
+    $scope.calcTotalHoursByDay = function (timesheet, day) {
+      if (!timesheet.projects) return 0;
+      return timesheet.projects
+        .map(function(x) { return x.hours[day]; })
+        .reduce(function (a, b) { return a + b; });
+    };
 
-  $scope.delete = function() {
-    var timesheet = editingTimesheet;
-    timesheet.isSaving = true;
-    var index = $scope.timesheets.indexOf(timesheet);
-    if (timesheet._id) {
-      $http.delete('api/timesheets/' + timesheet._id)
-        .success(function(data) {
-          timesheet.isSaving = false;
-          $scope.timesheets.splice(index, 1);
-        })
-        .error(function(data, status) {
-          displayError('Error Deleting Timesheet', data);
-          timesheet.isSaving = false;
-        });
-    }
-    endEdit();
-  };
+    $scope.calcTotalHoursByProject = function (project) {
+      if (!project) return 0;
+      var totalHours = 0;
+      for (var day = 0; day < 7; day++) {
+        totalHours += project.hours[day];
+      }
+      return totalHours;
+    };
 
-  $scope.add = function() {
-    var timesheet = {projects : [{hours:[0,0,0,0,0,0,0]}]};
-    $scope.timesheets.push(timesheet);
-    beginEdit(timesheet);
-  };
+    $scope.calcTotalHours = function (timesheet) {
+      var totalHours = 0;
+      for (var day = 0; day < 7; day++) {
+        totalHours += $scope.calcTotalHoursByDay(timesheet, day);
+      }
+      return totalHours;
+    };
 
-  $scope.addProject = function (project) {
-    var timesheet = editingTimesheet;
-    if (project === null) return;
-    timesheet.projects.push({name: project, hours: [0,0,0,0,0,0,0]});
-  };
+    $scope.edit = beginEdit;
 
-  $scope.deleteProject = function (project) {
-    var timesheet = editingTimesheet;
-    var index = timesheet.projects.indexOf(project);
-    timesheet.projects.splice(index, 1);
-  };
+    $scope.save = function () {
+      console.log('Saving');
+      var timesheet = editingTimesheet;
+      if (!validateRequiredWeekEnding(timesheet)) return;
+      timesheet.isSaving = true;
+      if (timesheet._id) {
+        $http.put('api/timesheets/' + timesheet._id, timesheet)
+          .success(function(data, status) {
+            timesheet.sortableWeekEnding = data.weekEnding;
+            timesheet.weekEnding = getDateString(data.weekEnding);
+            timesheet.projects = data.projects;
+            timesheet.isSaving = false;
+          })
+          .error(function(data, status) {
+            displayError('Error Saving Timesheet', data);
+            timesheet.isSaving = false;
+          });
+      }
+      else {
+        $http.post('api/timesheets', timesheet)
+          .success(function(data, status) {
+            timesheet._id = data._id;
+            timesheet.sortableWeekEnding = data.weekEnding;
+            timesheet.weekEnding = getDateString(data.weekEnding);
+            timesheet.projects = data.projects;
+            timesheet.isSaving = false;
+          })
+          .error(function(data, status) {
+            displayError('Error Saving Timesheet', data);
+            timesheet.isSaving = false;
+          });
+      }
+      endEdit();
+    };
 
-  $scope.canEdit = function (timesheet) {
-    return !$scope.isEditing()
-      && !$scope.isLoading()
-      && !timesheet.isSaving;
-  };
+    $scope.cancel = function() {
+      if (!editingTimesheet) return;
+      var index = $scope.timesheets.indexOf(editingTimesheet);
+      if (editingTimesheet._id) {
+        // Cancelled editing existing timesheet... Restore the original timesheet
+        $scope.timesheets[index] = originalTimesheet;
+      }
+      else {
+        // Cancelled adding new timesheet... Remove the new timesheet
+        $scope.timesheets.splice(index, 1);
+      }
+      endEdit();
+    };
 
-  $scope.canAdd = function() {
-    return !$scope.isEditing()
-      && !$scope.isLoading();
-  };
+    $scope.delete = function() {
+      var timesheet = editingTimesheet;
+      timesheet.isSaving = true;
+      var index = $scope.timesheets.indexOf(timesheet);
+      if (timesheet._id) {
+        $http.delete('api/timesheets/' + timesheet._id)
+          .success(function(data) {
+            timesheet.isSaving = false;
+            $scope.timesheets.splice(index, 1);
+          })
+          .error(function(data, status) {
+            displayError('Error Deleting Timesheet', data);
+            timesheet.isSaving = false;
+          });
+      }
+      endEdit();
+    };
 
-  $scope.isEditing = function (timesheet) {
-    if (timesheet) {
-      return timesheet === editingTimesheet;
-    }
-    else {
-      return editingTimesheet !== null;
-    }
-  };
+    $scope.add = function() {
+      var timesheet = {projects : [{hours:[0,0,0,0,0,0,0]}]};
+      $scope.timesheets.push(timesheet);
+      beginEdit(timesheet);
+    };
 
-  $scope.isLoading = function() {
-    return !$scope.projects
-      || !$scope.timesheets;
-  };
+    $scope.addProject = function (project) {
+      var timesheet = editingTimesheet;
+      if (project === null) return;
+      timesheet.projects.push({name: project, hours: [0,0,0,0,0,0,0]});
+    };
 
-  $scope.isSaving = function() {
-    return $scope.timesheets
-      && $scope.timesheets.some(function(timesheet) { return timesheet.isSaving; });
-  };
+    $scope.deleteProject = function (project) {
+      var timesheet = editingTimesheet;
+      var index = timesheet.projects.indexOf(project);
+      timesheet.projects.splice(index, 1);
+    };
 
-});
+    $scope.canEdit = function (timesheet) {
+      return !$scope.isEditing()
+        && !$scope.isLoading()
+        && !timesheet.isSaving;
+    };
+
+    $scope.canAdd = function() {
+      return !$scope.isEditing()
+        && !$scope.isLoading();
+    };
+
+    $scope.isEditing = function (timesheet) {
+      if (timesheet) {
+        return timesheet === editingTimesheet;
+      }
+      else {
+        return editingTimesheet !== null;
+      }
+    };
+
+    $scope.isLoading = function() {
+      return !$scope.projects
+        || !$scope.timesheets;
+    };
+
+    $scope.isSaving = function() {
+      return $scope.timesheets
+        && $scope.timesheets.some(function(timesheet) { return timesheet.isSaving; });
+    };
+
+  });

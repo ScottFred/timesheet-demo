@@ -6,7 +6,9 @@
     "start": "nodemon ./server/bin/www"
   },
   "devDependencies": {
+    "add-stream": "^1.0.0",
     "gulp": "^3.9.0",
+    "gulp-angular-templatecache": "^1.8.0",
     "gulp-bower-files": "^0.2.7",
     "gulp-concat": "^2.6.0",
     "gulp-ng-annotate": "^1.0.0",
