@@ -4,7 +4,7 @@ block content
     .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2(ng-controller='projectsCtrl')
         div
             .main-activity.pull-right(ng-show='isLoading() || isSaving()')
-                img(src='/images/ajax-loader.gif')
+                img(src='/assets/images/ajax-loader.gif')
             h1 #{user ? user.username + "'s" : null} Projects
         table.table(ng-cloak)
             thead
@@ -25,7 +25,3 @@ block content
                 tr(ng-hide='isEditing()')
                     td(colspan='2')
                         a.clickable(ng-click='add(project)') Add Project
-
-block scripts
-    script(src='/javascripts/controllers/projects.js')
-    script(src='/javascripts/directives/ng-really.js')

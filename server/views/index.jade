@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    .container
+        .jumbotron
+            h1.text-center Welcome to the Cinlogic Timesheet Demo App
+            p#subtitle.text-center(style='opacity:0') A simple demo app created using:
+            ul.tech
+                li#tech1(style='min-height: 100px;')
+                    a(href='http://mongodb.org', title='MongoDB')
+                        img(src='assets/images/mongodb-small.jpg', alt='MongoDB', height='43', width='150')
+                li#tech2(style='min-height: 100px;')
+                    a(href='http://expressjs.com', title='Express')
+                        img(src='assets/images/express-small.png', alt='Express', height='46', width='150', style='margin-top: 8px;')
+                li#tech3(style='min-height: 100px;')
+                    a(href='http://angularjs.org', title='AngularJS')
+                        img(src='assets/images/angularjs.png', alt='AngularJS', height='150', width='150')
+                li#tech4(style='min-height: 100px;')
+                    a(href='http://nodejs.org', title='NodeJS')
+                        img(src='assets/images/nodejs-small.png', alt='NodeJS', height='81', width='150')
+    .container
+        .col-sm-5.col-sm-offset-1.box
+            div
+                h2 Existing User Login
+                include ./includes/login.jade
+        .col-sm-5.box
+            div
+                h2 New User Registration
+                include ./includes/register.jade

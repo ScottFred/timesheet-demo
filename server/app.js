@@ -2,7 +2,7 @@
 
 var express = require('express');
 var path = require('path');
-//var favicon = require('serve-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -10,7 +10,8 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var PassportLocalStrategy = require('passport-local').Strategy;
-var PassportBasicStrategy = require('passport-http').BasicStrategy;
+
+var config = require('./config');
 
 var app = express();
 
@@ -19,29 +20,28 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(path.join(__dirname, '../dist/assets/favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(session({ secret: 'timesheetdemosessionsecret', resave: false, saveUninitialized: false }));
+app.use(session({ secret: config.sessionSecret, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 app.use('/', require('./routes'));
 
 // passport config
 var account = require('./models/account');
 passport.use(new PassportLocalStrategy(account.authenticate()));
-passport.use(new PassportBasicStrategy(account.authenticate()));
 passport.serializeUser(account.serializeUser());
 passport.deserializeUser(account.deserializeUser());
 
 // mongoose
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(config.mongoConnectionString);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,7 +4,7 @@ block content
     div(ng-controller='timesheetsCtrl')
         div
             .main-activity.pull-right(ng-show='isLoading() || isSaving()')
-                img(src='/images/ajax-loader.gif')
+                img(src='/assets/images/ajax-loader.gif')
             h1 #{user ? user.username + "'s" : null} Timesheets
         table.table(ng-cloak)
             tbody
@@ -33,7 +33,7 @@ block content
                     td(ng-hide='isEditing(timesheet)', colspan='2') {{timesheet.projects[0].name}}
                     td.row-action(ng-show='isEditing(timesheet)')
                         a.clickable(title='Delete Row', ng-click='deleteProject(timesheet, timesheet.projects[0])')
-                            span.glyphicon.glyphicon-minus-sign(aria-hidden='true')
+                            i.fa.fa-minus-circle
                     td(ng-show='isEditing(timesheet)')
                         select.form-control.input-sm(placeholder="projects", ng-options='p.name as p.name for p in projects', ng-model='timesheet.projects[0].name')
                             option
@@ -47,7 +47,7 @@ block content
                     td(ng-hide='isEditing(timesheet)', colspan='2') {{project.name}}
                     td.row-action(ng-show='isEditing(timesheet)')
                         a.clickable(title='Delete Row', ng-click='deleteProject(timesheet, project)')
-                            span.glyphicon.glyphicon-minus-sign(aria-hidden='true')
+                            i.fa.fa-minus-circle
                     td(ng-show='isEditing(timesheet)')
                         select.form-control.input-sm(ng-options='p.name as p.name for p in projects', ng-model='project.name')
                             option
@@ -60,7 +60,7 @@ block content
                 tr(ng-show='isEditing(timesheet)')
                     td.row-action
                         a.clickable(title='Add Row', ng-click='addProject(timesheet)')
-                            span.glyphicon.glyphicon-plus-sign(aria-hidden='true')
+                            i.fa.fa-plus-circle
                     td(colspan='9')
                 tr
                     td(colspan='2') Total
@@ -73,8 +73,3 @@ block content
                 tr
                     td.new-week(colspan='11')
                         a.clickable(ng-show='canAdd()', ng-click='add()') Add Week
-
-block scripts
-    script(src='/javascripts/controllers/timesheets.js')
-    script(src='/javascripts/directives/ng-datepicker.js')
-    script(src='/javascripts/directives/ng-really.js')

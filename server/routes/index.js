@@ -3,7 +3,7 @@
 var passport = require('passport');
 
 var sessionHandler = require('./sessionHandler');
-var contentHandler = require('./contentHandler');
+var mainHandler = require('./mainHandler');
 var projectsApiHandler = require('./projectsApiHandler');
 var timesheetsApiHandler = require('./timesheetsApiHandler');
 
@@ -24,15 +24,18 @@ function requireApiAuthentication(req, res, next) {
 var express = require('express');
 var router = express.Router();
 
-router.get('/', contentHandler.getMain);
-router.get('/projects', requireAuthentication, contentHandler.getProjects);
-router.get('/about', contentHandler.getAbout);
+// Page Routes
+
+router.get('/', mainHandler.getMain);
+router.get('/projects', requireAuthentication, mainHandler.getProjects);
 
 router.get('/auth/register', sessionHandler.getRegister);
 router.post('/auth/register', sessionHandler.postRegister);
 router.get('/auth/login', sessionHandler.getLogin);
 router.post('/auth/login', sessionHandler.postLogin);
 router.get('/auth/logout', sessionHandler.getLogout);
+
+// API Routes
 
 router.get('/api/projects', requireApiAuthentication, projectsApiHandler.getProjects);
 router.get('/api/projects/:id', requireApiAuthentication, projectsApiHandler.getProject);
