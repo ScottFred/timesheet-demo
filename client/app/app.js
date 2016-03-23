@@ -1,3 +1,6 @@
 "use strict";
 
-angular.module('timesheetApp', ['toasty']);
+angular.module('timesheetApp', [
+  'projectModule',
+  'timesheetModule'
+]);

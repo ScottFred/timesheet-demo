@@ -1,4 +1,4 @@
 module.exports = {
-  mongoConnectionString: process.env.MONGOLAB_URI || 'localhost:27017',
+  mongoConnectionString: process.env.MONGOLAB_URI || 'mongodb://localhost/timesheetdemo',
   sessionSecret: 'timesheetdemosessionsecret'
 };
