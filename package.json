@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "gulp",
-    "prod": "gulp --type production"
+    "prod": "gulp --type production",
+    "build": "gulp build --type production"
   },
   "devDependencies": {
     "add-stream": "^1.0.0",

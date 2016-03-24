@@ -45,9 +45,6 @@ gulp.task('nodemon', function() {
   })
 });
 
-gulp.task('default', [
-  'assets',
-  'app',
-  'watch',
-  'nodemon'
-]);
+gulp.task('build', ['assets', 'app']);
+gulp.task('run', ['watch', 'nodemon']);
+gulp.task('default', ['build', 'run']);
