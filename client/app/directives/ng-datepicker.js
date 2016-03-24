@@ -1,6 +1,8 @@
 "use strict";
 
-angular.module('timesheetApp').directive('ngDatepicker', function () {
+angular
+  .module('timesheetApp')
+  .directive('ngDatepicker', function () {
     return {
         require: 'ngModel',
         link: function (scope, element, attrs, ngModel) {

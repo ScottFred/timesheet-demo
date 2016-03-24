@@ -1,12 +1,14 @@
 "use strict";
 
 angular
-  .module('projectModule', [
-    'toasty'
-  ])
-  .controller('projectCtrl', function($scope, $http, toasty) {
+  .module('timesheetApp')
+  .controller('projectCtrl', function($scope, $http, authService, toastService) {
     $scope.editingProject = null;
     $scope.originalProject = null;
+
+    $scope.$watch(authService.currentUser, function(currentUser) {
+      $scope.currentUser = currentUser;
+    });
 
     function beginEdit(project) {
       $scope.editingProject = project;
@@ -18,31 +20,9 @@ angular
       $scope.originalProject = null;
     }
 
-    function displayError(title, data) {
-      toasty.pop.error({
-        title: title,
-        msg: data,
-        showClose: true,
-        clickToClose: true,
-        timeout: 0
-      });
-      console.log(title + ': ' + data);
-    }
-
-    function displayWarning(title, data) {
-      toasty.pop.warning({
-        title: title,
-        msg: data,
-        showClose: true,
-        clickToClose: true,
-        timeout: 5000
-      });
-      console.log(title + ': ' + data);
-    }
-
     function validateRequiredName(project) {
       if (!project.name || project.name === '' || project.name.trim() === '') {
-        displayWarning('Project name is required');
+        toastService.displayWarning('Project name is required');
         return false;
       }
       return true;
@@ -57,7 +37,7 @@ angular
       })
       .error(function(data, status) {
         $scope.projects = [];
-        displayError('Error Loading Projects', data);
+        toastService.displayError('Error Loading Projects', data);
       });
 
     $scope.edit = beginEdit;
@@ -75,7 +55,7 @@ angular
             project.isSaving = false;
           })
           .error(function(data, status) {
-            displayError('Error Saving Project', data);
+            toastService.displayError('Error Saving Project', data);
             project.isSaving = false;
           });
       }
@@ -88,7 +68,7 @@ angular
             project.isSaving = false;
           })
           .error(function(data, status) {
-            displayError('Error Saving Project', data);
+            toastService.displayError('Error Saving Project', data);
             project.isSaving = false;
           });
       }
@@ -120,7 +100,7 @@ angular
             $scope.projects.splice(index, 1);
           })
           .error(function(data, status) {
-            displayError('Error Deleting Project', data);
+            toastService.displayError('Error Deleting Project', data);
             project.isSaving = false;
           });
       }

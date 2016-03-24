@@ -4,8 +4,7 @@ angular
   .module('timesheetApp', [
     'ngRoute',
     'templates',
-    'projectModule',
-    'timesheetModule'
+    'toasty'
   ])
   .config(function($routeProvider) {
     $routeProvider

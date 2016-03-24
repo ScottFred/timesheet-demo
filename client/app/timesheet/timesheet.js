@@ -1,12 +1,14 @@
 "use strict";
 
 angular
-  .module('timesheetModule', [
-    'toasty'
-  ])
-  .controller('timesheetCtrl', function($scope, $http, toasty) {
+  .module('timesheetApp')
+  .controller('timesheetCtrl', function($scope, $http, authService, toastService) {
     var editingTimesheet = null;
     var originalTimesheet = null;
+
+    $scope.$watch(authService.currentUser, function(currentUser) {
+      $scope.currentUser = currentUser;
+    });
 
     // Parses a date string of the format yyyy-mm-dd
     function getDateString(d) {
@@ -24,30 +26,9 @@ angular
       originalTimesheet = null;
     }
 
-    function displayError(title, data) {
-      toasty.pop.error({
-        title: title,
-        msg: data,
-        showClose: true,
-        clickToClose: true,
-        timeout: 0
-      });
-      console.log(title + ': ' + data);
-    }
-    function displayWarning(title, data) {
-      toasty.pop.warning({
-        title: title,
-        msg: data,
-        showClose: true,
-        clickToClose: true,
-        timeout: 5000
-      });
-      console.log(title + ': ' + data);
-    }
-
     function validateRequiredWeekEnding(timesheet) {
       if (!timesheet.weekEnding || timesheet.weekEnding === '' || timesheet.weekEnding.trim() === '') {
-        displayWarning('Week ending date is required');
+        toastService.displayWarning('Week ending date is required');
         return false;
       }
       return true;
@@ -59,7 +40,7 @@ angular
       })
       .error(function(data, status) {
         $scope.projects = [];
-        displayError('Error Loading Projects', data);
+        toastService.displayError('Error Loading Projects', data);
       });
 
     $http.get('api/timesheets')
@@ -72,7 +53,7 @@ angular
       })
       .error(function(data, status) {
         $scope.timesheets = [];
-        displayError('Error Loading Timesheets', data);
+        toastService.displayError('Error Loading Timesheets', data);
       });
 
     $scope.calcTotalHoursByDay = function (timesheet, day) {
@@ -115,7 +96,7 @@ angular
             timesheet.isSaving = false;
           })
           .error(function(data, status) {
-            displayError('Error Saving Timesheet', data);
+            toastService.displayError('Error Saving Timesheet', data);
             timesheet.isSaving = false;
           });
       }
@@ -129,7 +110,7 @@ angular
             timesheet.isSaving = false;
           })
           .error(function(data, status) {
-            displayError('Error Saving Timesheet', data);
+            toastService.displayError('Error Saving Timesheet', data);
             timesheet.isSaving = false;
           });
       }
@@ -161,7 +142,7 @@ angular
             $scope.timesheets.splice(index, 1);
           })
           .error(function(data, status) {
-            displayError('Error Deleting Timesheet', data);
+            toastService.displayError('Error Deleting Timesheet', data);
             timesheet.isSaving = false;
           });
       }
