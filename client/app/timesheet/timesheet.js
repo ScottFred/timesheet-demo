@@ -6,8 +6,14 @@ angular
     var editingTimesheet = null;
     var originalTimesheet = null;
 
+    $scope.title = '';
     $scope.$watch(authService.currentUser, function(currentUser) {
-      $scope.currentUser = currentUser;
+      if (currentUser && currentUser.username) {
+        $scope.title = currentUser.username + '\'s Timesheets';
+      }
+      else {
+        $scope.title = '';
+      }
     });
 
     // Parses a date string of the format yyyy-mm-dd

@@ -3,12 +3,13 @@ var concat = require('gulp-concat');
 var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var nodemon = require('gulp-nodemon');
+var htmlmin = require('gulp-htmlmin');
 var angularTemplateCache = require('gulp-angular-templatecache');
-//var fs = require('fs');
 var addStream = require('add-stream');
 
 function prepareTemplates() {
   return gulp.src('./client/app/**/*.tpl.html')
+    .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(angularTemplateCache());
 }
 
@@ -72,5 +73,5 @@ gulp.task('nodemon-dev', function() {
 gulp.task('watch', ['watch-assets', 'watch-app']);
 
 gulp.task('dev', ['assets', 'app-dev', 'watch', 'nodemon']);
-gulp.task('prod', ['assets', 'app', 'nodemon']);
+gulp.task('prod', ['assets', 'app']);
 gulp.task('default', ['dev']);

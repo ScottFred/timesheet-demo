@@ -1,9 +1,7 @@
 angular
   .module('timesheetApp')
-  .service('authService', function($http) {
+  .factory('authService', function($http) {
     var _currentUser;
-
-    this.currentUser = function() { return _currentUser; };
 
     $http.get('api/auth/user')
       .success(function(data) {
@@ -12,4 +10,8 @@ angular
       .error(function() {
         _currentUser = null;
       });
+
+    return {
+      currentUser: function() { return _currentUser; }
+    };
 });

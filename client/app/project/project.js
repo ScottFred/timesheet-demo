@@ -6,8 +6,14 @@ angular
     $scope.editingProject = null;
     $scope.originalProject = null;
 
+    $scope.title = '';
     $scope.$watch(authService.currentUser, function(currentUser) {
-      $scope.currentUser = currentUser;
+      if (currentUser && currentUser.username) {
+        $scope.title = currentUser.username + '\'s Timesheets';
+      }
+      else {
+        $scope.title = '';
+      }
     });
 
     function beginEdit(project) {

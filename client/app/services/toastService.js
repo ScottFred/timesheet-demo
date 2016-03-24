@@ -1,8 +1,8 @@
 angular
   .module('timesheetApp')
-  .service('toastService', function(toasty) {
+  .factory('toastService', function(toasty) {
 
-    this.displayError = function(title, data) {
+    function displayError(title, data) {
       toasty.pop.error({
         title: title,
         msg: data,
@@ -11,9 +11,9 @@ angular
         timeout: 0
       });
       console.log(title + ': ' + data);
-    };
+    }
 
-    this.displayWarning = function(title, data) {
+    function displayWarning(title, data) {
       toasty.pop.warning({
         title: title,
         msg: data,
@@ -22,7 +22,11 @@ angular
         timeout: 5000
       });
       console.log(title + ': ' + data);
-    };
+    }
 
+    return {
+      displayError: displayError,
+      displayWarning: displayWarning
+    };
   });
 
