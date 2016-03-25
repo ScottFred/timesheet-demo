@@ -33,14 +33,13 @@ select.input-sm {
     border-top: 1px solid #ddd ;
 }
 
-
 .table > tbody > tr.new-week > td {
     border-top: 2px solid #6491A5;
     padding-top: 1px;
 }
 
 .table > tbody > tr > td {
-    padding-top: 1px;
+    padding: 1px 0;
 }
 
 .table > thead > tr.header > th,
@@ -48,6 +47,17 @@ select.input-sm {
     border-top: 2px solid #6491A5 !important;
     background-color: #9BBDCC;
     padding: 0 5px;
+}
+
+.table > tbody > tr > td.week-ending > div > p,
+.table > tbody > tr > td.project > p {
+    padding: 1px 5px 0 0;
+    margin: 0;
+}
+
+.table > tbody > tr > td.project {
+    min-width: 100px;
+    white-space: nowrap;
 }
 
 .table > tbody > tr > td.hours {
@@ -64,6 +74,11 @@ select.input-sm {
 .table > tbody > tr > td.hours > input.input-sm {
     text-align: right;
     padding: 0 0 0 5px;
+    min-width: 40px;
+}
+
+.table > tbody > tr > td.week-ending input.input-sm {
+    min-width: 90px;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -71,16 +86,16 @@ input[type=number]::-webkit-outer-spin-button {
     margin-left: 5px;
 }
 
-td.row-action {
-    width: 25px;
+.table > tbody > tr > td.row-action {
+    padding: 2px 5px;
     text-align: center;
 }
 
-td.week-ending {
+.table > tbody > tr > td.week-ending {
     width: 200px;
 }
 
-td.edit-action {
+.table > tbody > tr > td.edit-action {
     width: 150px;
     text-align: right;
 }
