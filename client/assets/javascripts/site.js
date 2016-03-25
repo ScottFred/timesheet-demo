@@ -12,6 +12,9 @@ function onWindowResize() {
 $(function() {
     $(window).resize(onWindowResize);
     $('footer').show();
+    $('.navbar-collapse a').click(function(){
+        $('.navbar-collapse').collapse('hide');
+    });
 });
 
 onWindowResize();
