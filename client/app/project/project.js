@@ -9,7 +9,7 @@ angular
     $scope.title = '';
     $scope.$watch(authService.currentUser, function(currentUser) {
       if (currentUser && currentUser.username) {
-        $scope.title = currentUser.username + '\'s Timesheets';
+        $scope.title = currentUser.username + '\'s Projects';
       }
       else {
         $scope.title = '';
