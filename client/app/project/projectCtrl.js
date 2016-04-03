@@ -1,20 +1,13 @@
-"use strict";
+'use strict';
 
-angular
-  .module('timesheetApp')
-  .controller('projectCtrl', function($scope, $http, authService, toastService) {
+angular.module('app')
+  .controller('projectCtrl', function ($scope, $http, authService, toastService) {
+    authService.requireAuthentication();
+
     $scope.editingProject = null;
     $scope.originalProject = null;
 
-    $scope.title = '';
-    $scope.$watch(authService.currentUser, function(currentUser) {
-      if (currentUser && currentUser.username) {
-        $scope.title = currentUser.username + '\'s Projects';
-      }
-      else {
-        $scope.title = '';
-      }
-    });
+    $scope.title = authService.getClaims().username + '\'s Projects';
 
     function beginEdit(project) {
       $scope.editingProject = project;
@@ -35,13 +28,13 @@ angular
     }
 
     $http.get('api/projects')
-      .success(function(data) {
-        data.forEach(function(d) {
+      .success(function (data) {
+        data.forEach(function (d) {
           d.sortableName = d.name;
         });
         $scope.projects = data;
       })
-      .error(function(data, status) {
+      .error(function (data, status) {
         $scope.projects = [];
         toastService.displayError('Error Loading Projects', data);
       });
@@ -55,25 +48,25 @@ angular
       project.isSaving = true;
       if (project._id) {
         $http.put('api/projects/' + project._id, project)
-          .success(function(data) {
+          .success(function (data) {
             project.sortableName = data.name;
             project.name = data.name;
             project.isSaving = false;
           })
-          .error(function(data, status) {
+          .error(function (data, status) {
             toastService.displayError('Error Saving Project', data);
             project.isSaving = false;
           });
       }
       else {
         $http.post('api/projects', project)
-          .success(function(data) {
+          .success(function (data) {
             project._id = data._id;
             project.sortableName = data.name;
             project.name = data.name;
             project.isSaving = false;
           })
-          .error(function(data, status) {
+          .error(function (data, status) {
             toastService.displayError('Error Saving Project', data);
             project.isSaving = false;
           });
@@ -81,7 +74,7 @@ angular
       endEdit();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
       if (!$scope.editingProject) return;
       var index = $scope.projects.indexOf($scope.editingProject);
       if ($scope.editingProject._id) {
@@ -95,17 +88,17 @@ angular
       endEdit();
     };
 
-    $scope.delete = function() {
+    $scope.delete = function () {
       var project = $scope.editingProject;
       project.isSaving = true;
       var index = $scope.projects.indexOf(project);
       if (project._id) {
         $http.delete('api/projects/' + project._id)
-          .success(function(data) {
+          .success(function (data) {
             project.isSaving = false;
             $scope.projects.splice(index, 1);
           })
-          .error(function(data, status) {
+          .error(function (data, status) {
             toastService.displayError('Error Deleting Project', data);
             project.isSaving = false;
           });
@@ -113,13 +106,13 @@ angular
       endEdit();
     };
 
-    $scope.add = function() {
+    $scope.add = function () {
       var project = {};
       $scope.projects.push(project);
       beginEdit(project);
     };
 
-    $scope.canAdd = function() {
+    $scope.canAdd = function () {
       return !$scope.isEditing()
         && !$scope.isLoading();
     };
@@ -133,13 +126,15 @@ angular
       }
     };
 
-    $scope.isLoading = function() {
+    $scope.isLoading = function () {
       return !$scope.projects
         || !$scope.projects;
     };
 
-    $scope.isSaving = function() {
+    $scope.isSaving = function () {
       return $scope.projects
-        && $scope.projects.some(function(project) { return project.isSaving; });
+        && $scope.projects.some(function (project) {
+          return project.isSaving;
+        });
     };
   });

@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+    padding-top: 50px;
 }
 
 .table > thead > tr > th,
@@ -30,7 +30,7 @@ select.input-sm {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-    border-top: 1px solid #ddd ;
+    border-top: 1px solid #ddd;
 }
 
 .table > tbody > tr.new-week > td {
@@ -117,16 +117,17 @@ div.main-activity {
     margin-right: 10px;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
     .box {
         padding: 0 0 20px 0;
     }
 }
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
     .box:first-child {
         padding: 0 10px 0 0;
     }
+
     .box {
         padding: 0 0 0 10px;
     }
@@ -175,7 +176,7 @@ h2 {
 footer {
     background: #222;
     color: #9d9d9d;
-    margin-top:100px;
+    margin-top: 100px;
     padding: 10px 50px;
     display: none;
 }
@@ -209,4 +210,8 @@ a.clickable {
 
 .navbar-inverse .navbar-brand {
     color: #ddd;
+}
+
+.timesheet {
+    overflow-x: auto;
 }

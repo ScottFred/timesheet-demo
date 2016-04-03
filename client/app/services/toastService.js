@@ -1,7 +1,7 @@
-angular
-  .module('timesheetApp')
-  .factory('toastService', function(toasty) {
+'use strict';
 
+angular.module('app')
+  .factory('toastService', function (toasty) {
     function displayError(title, data) {
       toasty.pop.error({
         title: title,
@@ -10,7 +10,7 @@ angular
         clickToClose: true,
         timeout: 0
       });
-      console.log(title + ': ' + data);
+      console.error(data ? title + ': ' + data : title);
     }
 
     function displayWarning(title, data) {
@@ -21,7 +21,7 @@ angular
         clickToClose: true,
         timeout: 5000
       });
-      console.log(title + ': ' + data);
+      console.warn(data ? title + ': ' + data : title);
     }
 
     return {
