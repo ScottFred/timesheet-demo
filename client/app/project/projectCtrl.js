@@ -2,7 +2,9 @@
 
 angular.module('app')
   .controller('projectCtrl', function ($scope, $http, authService, toastService) {
-    authService.requireAuthentication();
+    if (!authService.requireAuthentication()) {
+      return;
+    }
 
     $scope.editingProject = null;
     $scope.originalProject = null;

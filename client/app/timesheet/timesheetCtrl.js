@@ -2,7 +2,9 @@
 
 angular.module('app')
   .controller('timesheetCtrl', function ($scope, $http, authService, toastService) {
-    authService.requireAuthentication();
+    if (!authService.requireAuthentication()) {
+      return;
+    }
 
     var editingTimesheet = null;
     var originalTimesheet = null;

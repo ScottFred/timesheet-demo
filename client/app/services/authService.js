@@ -5,7 +5,11 @@ angular.module('app')
     var _claims;
 
     function getClaims() {
-      _claims = _claims || jwt_decode(authTokenService.getToken());
+      var token = authTokenService.getToken();
+      if (!token) {
+        return {};
+      }
+      _claims = _claims || jwt_decode(token);
       return _claims;
     }
 
@@ -19,8 +23,11 @@ angular.module('app')
 
     function requireAuthentication() {
       if (!isAuthenticated()) {
-        return $location.path('/login');
+        console.log('Authenticate is required, redirecting to login');
+        $location.path('/login');
+        return false;
       }
+      return true;
     }
 
     function login(credentials) {
