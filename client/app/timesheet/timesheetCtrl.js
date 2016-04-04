@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-  .controller('timesheetCtrl', function ($scope, $http, authService, toastService) {
+  .controller('timesheetCtrl', function ($scope, authService, projectService, timesheetService, toastService) {
     if (!authService.requireAuthentication()) {
       return;
     }
@@ -35,16 +35,16 @@ angular.module('app')
       return true;
     }
 
-    $http.get('api/projects')
+    projectService.getProjects()
       .success(function (data) {
         $scope.projects = data;
       })
-      .error(function (data, status) {
+      .error(function (error) {
         $scope.projects = [];
-        toastService.displayError('Error Loading Projects', data);
+        toastService.displayError('Error Loading Projects', error);
       });
 
-    $http.get('api/timesheets')
+    timesheetService.getTimesheets()
       .success(function (data) {
         data.forEach(function (d) {
           d.sortableWeekEnding = d.weekEnding;
@@ -52,9 +52,9 @@ angular.module('app')
         });
         $scope.timesheets = data;
       })
-      .error(function (data, status) {
+      .error(function (error) {
         $scope.timesheets = [];
-        toastService.displayError('Error Loading Timesheets', data);
+        toastService.displayError('Error Loading Timesheets', error);
       });
 
     $scope.calcTotalHoursByDay = function (timesheet, day) {
@@ -93,29 +93,29 @@ angular.module('app')
       if (!validateRequiredWeekEnding(timesheet)) return;
       timesheet.isSaving = true;
       if (timesheet._id) {
-        $http.put('api/timesheets/' + timesheet._id, timesheet)
-          .success(function (data, status) {
+        timesheetService.putTimesheet(timesheet)
+          .success(function (data) {
             timesheet.sortableWeekEnding = data.weekEnding;
             timesheet.weekEnding = getDateString(data.weekEnding);
             timesheet.projects = data.projects;
             timesheet.isSaving = false;
           })
-          .error(function (data, status) {
-            toastService.displayError('Error Saving Timesheet', data);
+          .error(function (error) {
+            toastService.displayError('Error Saving Timesheet', error);
             timesheet.isSaving = false;
           });
       }
       else {
-        $http.post('api/timesheets', timesheet)
-          .success(function (data, status) {
+        timesheetService.postTimesheet(timesheet)
+          .success(function (data) {
             timesheet._id = data._id;
             timesheet.sortableWeekEnding = data.weekEnding;
             timesheet.weekEnding = getDateString(data.weekEnding);
             timesheet.projects = data.projects;
             timesheet.isSaving = false;
           })
-          .error(function (data, status) {
-            toastService.displayError('Error Saving Timesheet', data);
+          .error(function (error) {
+            toastService.displayError('Error Saving Timesheet', error);
             timesheet.isSaving = false;
           });
       }
@@ -141,13 +141,13 @@ angular.module('app')
       timesheet.isSaving = true;
       var index = $scope.timesheets.indexOf(timesheet);
       if (timesheet._id) {
-        $http.delete('api/timesheets/' + timesheet._id)
-          .success(function (data) {
+        timesheetService.deleteTimesheet(timesheet._id)
+          .success(function () {
             timesheet.isSaving = false;
             $scope.timesheets.splice(index, 1);
           })
-          .error(function (data, status) {
-            toastService.displayError('Error Deleting Timesheet', data);
+          .error(function (error) {
+            toastService.displayError('Error Deleting Timesheet', error);
             timesheet.isSaving = false;
           });
       }

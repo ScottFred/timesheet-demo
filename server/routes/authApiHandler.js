@@ -13,7 +13,7 @@
     return models.account.register(new models.account({username: req.body.username}), req.body.password, function (err) {
       if (err) {
         console.warn('Register failed', err);
-        return res.status(400).send(err).end();
+        return res.status(400).send(err.message).end();
       }
       return passport.authenticate('local', function (err, account) {
         if (err) {

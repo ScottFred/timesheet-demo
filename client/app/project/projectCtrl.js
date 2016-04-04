@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-  .controller('projectCtrl', function ($scope, $http, authService, toastService) {
+  .controller('projectCtrl', function ($scope, authService, projectService, toastService) {
     if (!authService.requireAuthentication()) {
       return;
     }
@@ -29,16 +29,16 @@ angular.module('app')
       return true;
     }
 
-    $http.get('api/projects')
+    projectService.getProjects()
       .success(function (data) {
         data.forEach(function (d) {
           d.sortableName = d.name;
         });
         $scope.projects = data;
       })
-      .error(function (data, status) {
+      .error(function (error) {
         $scope.projects = [];
-        toastService.displayError('Error Loading Projects', data);
+        toastService.displayError('Error Loading Projects', error);
       });
 
     $scope.edit = beginEdit;
@@ -49,27 +49,27 @@ angular.module('app')
       if (!validateRequiredName(project)) return;
       project.isSaving = true;
       if (project._id) {
-        $http.put('api/projects/' + project._id, project)
+        projectService.putProject(project)
           .success(function (data) {
             project.sortableName = data.name;
             project.name = data.name;
             project.isSaving = false;
           })
-          .error(function (data, status) {
-            toastService.displayError('Error Saving Project', data);
+          .error(function (error) {
+            toastService.displayError('Error Saving Project', error);
             project.isSaving = false;
           });
       }
       else {
-        $http.post('api/projects', project)
+        projectService.postProject(project)
           .success(function (data) {
             project._id = data._id;
             project.sortableName = data.name;
             project.name = data.name;
             project.isSaving = false;
           })
-          .error(function (data, status) {
-            toastService.displayError('Error Saving Project', data);
+          .error(function (error) {
+            toastService.displayError('Error Saving Project', error);
             project.isSaving = false;
           });
       }
@@ -95,13 +95,13 @@ angular.module('app')
       project.isSaving = true;
       var index = $scope.projects.indexOf(project);
       if (project._id) {
-        $http.delete('api/projects/' + project._id)
-          .success(function (data) {
+        projectService.deleteProject(project._id)
+          .success(function () {
             project.isSaving = false;
             $scope.projects.splice(index, 1);
           })
-          .error(function (data, status) {
-            toastService.displayError('Error Deleting Project', data);
+          .error(function (error) {
+            toastService.displayError('Error Deleting Project', error);
             project.isSaving = false;
           });
       }
