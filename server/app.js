@@ -14,10 +14,6 @@ var app = express();
 var mongoose = require('mongoose');
 mongoose.connect(config.mongoUrl);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 // favicon
 var favicon = require('serve-favicon');
 app.use(favicon(path.join(__dirname, '../dist/assets/favicon.ico')));

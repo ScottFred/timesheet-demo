@@ -1,4 +1,0 @@
-* SASS styles
-
-* Dashboard: Total hours by project with charts
-* Handle case when a project is renamed or deleted, show the existing name in the drop down list always
