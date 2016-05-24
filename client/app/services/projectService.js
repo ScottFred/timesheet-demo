@@ -6,13 +6,13 @@ angular.module('app')
       getProjects: function () {
         return $http.get('api/projects');
       },
-      putTimesheet: function (project) {
+      putProject: function (project) {
         return $http.put('api/projects/' + project._id, project);
       },
-      postTimesheet: function (project) {
+      postProject: function (project) {
         return $http.post('api/projects', project);
       },
-      deleteTimesheet: function (id) {
+      deleteProject: function (id) {
         return $http.delete('api/projects/' + id);
       }
     };
