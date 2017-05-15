@@ -23,7 +23,6 @@ export class TimesheetService {
   }
 
   saveTimesheet(timesheet: Timesheet): Promise<void> {
-    console.log('saveTimesheet', timesheet);
     if (timesheet._id) {
       return this.putTimesheet(timesheet);
     } else {

@@ -3,6 +3,8 @@ import {AuthenticationService} from '../services/authentication.service';
 import {ProjectService} from '../services/project.service';
 import {Project} from '../models/project';
 
+// TODO: Sort projects
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',

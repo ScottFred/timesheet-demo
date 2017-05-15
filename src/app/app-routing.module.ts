@@ -6,6 +6,8 @@ import {TimesheetsComponent} from './timesheets/timesheets.component';
 import {ProjectsComponent} from './projects/projects.component';
 import {RegisterComponent} from './register/register.component';
 
+// TODO: Use auth guard to protect routes
+
 const routes: Routes = [
   { path: '', redirectTo: '/timesheets', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },

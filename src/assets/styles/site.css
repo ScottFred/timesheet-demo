@@ -215,3 +215,12 @@ a.clickable {
 .timesheet {
   overflow-x: auto;
 }
+
+.mydp {
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.mydp input {
+  padding-top: 1px;
+}

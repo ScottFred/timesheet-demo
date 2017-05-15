@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {TimesheetService} from '../services/timesheet.service';
-import {Timesheet, TimesheetProject} from '../models/timesheet';
+import {Timesheet} from '../models/timesheet';
 import {Project} from '../models/project';
 import {ProjectService} from '../services/project.service';
 import {AuthenticationService} from '../services/authentication.service';
+
+// TODO: Sort timesheets
 
 @Component({
   selector: 'app-timesheets',

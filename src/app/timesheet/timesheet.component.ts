@@ -1,6 +1,9 @@
 import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
 import {Timesheet, TimesheetProject} from '../models/timesheet';
 import { Project} from '../models/project';
+import {IMyDateModel} from 'mydatepicker';
+
+// TODO: Sort projects drop down list
 
 @Component({
   selector: 'app-timesheet',
@@ -15,11 +18,49 @@ export class TimesheetComponent implements OnInit {
   @Output() beginEdit = new EventEmitter();
   @Output() endEdit = new EventEmitter<boolean>();
   @Output() delete = new EventEmitter();
+  weekEndingModel: any = {};
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.canEdit);
+    this.setWeekEndingModel();
+  }
+
+  private setWeekEndingModel() {
+    if (this.timesheet.weekEnding) {
+      const we = new Date(this.timesheet.weekEnding);
+      this.weekEndingModel = {
+        date: {
+          year: we.getFullYear(),
+          month: we.getMonth() + 1,
+          day: we.getDate()}
+      };
+    } else {
+      this.weekEndingModel = {};
+    }
+  }
+
+  getFormattedDate(): string {
+    if (this.timesheet.weekEnding) {
+      const we = new Date(this.timesheet.weekEnding);
+      return `${we.getMonth() + 1}/${we.getDate()}/${we.getFullYear()}`;
+    } else {
+      return null;
+    }
+  }
+
+  onWeekEndingDateChanged(event: IMyDateModel) {
+    if (event.jsdate) {
+      const d = event.jsdate;
+      const day = d.getDay();
+      if (day !== 6) {
+        d.setDate(d.getDate() + (6 - day));
+      }
+      this.timesheet.weekEnding = d;
+    } else {
+      this.timesheet.weekEnding = null;
+    }
+    this.setWeekEndingModel();
   }
 
   onDeleteTimesheetProjectClick(timesheetProject: TimesheetProject) {

@@ -19,8 +19,12 @@
       <tr class="new-week">
         <td class="week-ending" [attr.rowspan]="timesheet.projects.length + 3">
           <div>
-            <input class="form-control input-sm" placeholder="MM/DD/YYYY"
-                   [(ngModel)]="timesheet.weekEnding" />
+            <my-date-picker
+              placeholder="MM/DD/YYYY"
+              [ngModel]="weekEndingModel"
+              (dateChanged)="onWeekEndingDateChanged($event)"
+              [options]="{dateFormat: 'mm/dd/yyyy', height: 'auto', firstDayOfWeek: 'su', sunHighlight: false, satHighlight: true}"
+            ></my-date-picker>
           </div>
           <div>
             <a class="clickable" (click)="endEdit.emit(true)">Save</a>
@@ -98,7 +102,7 @@
       <tr class="new-week">
         <td class="week-ending" [attr.rowspan]="timesheet.projects.length + 2">
           <div>
-            <p>{{timesheet.weekEnding}}</p>
+            <p>{{getFormattedDate()}}</p>
           </div>
           <div *ngIf="canEdit">
             <a class="clickable" (click)="beginEdit.emit()">Edit</a>
