@@ -6,7 +6,7 @@ import { Project } from '../models/project';
 
 @Injectable()
 export class ProjectService {
-  private apiServer = isDevMode ? 'http://localhost:3000' : '';
+  private apiServer = isDevMode() ? 'http://localhost:3000' : '';
 
   constructor(
     private http: Http,

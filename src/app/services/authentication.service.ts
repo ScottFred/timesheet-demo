@@ -6,7 +6,7 @@ import {ClaimsService} from './claims.service';
 
 @Injectable()
 export class AuthenticationService {
-  private apiServer = isDevMode ? 'http://localhost:3000' : '';
+  private apiServer = isDevMode() ? 'http://localhost:3000' : '';
 
   constructor(
     private http: Http,

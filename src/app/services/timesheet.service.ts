@@ -6,7 +6,7 @@ import {TokenService} from './token.service';
 
 @Injectable()
 export class TimesheetService {
-  private apiServer = isDevMode ? 'http://localhost:3000' : '';
+  private apiServer = isDevMode() ? 'http://localhost:3000' : '';
 
   constructor(
     private http: Http,
