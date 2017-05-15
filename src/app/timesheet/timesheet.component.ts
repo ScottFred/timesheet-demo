@@ -3,8 +3,6 @@ import {Timesheet, TimesheetProject} from '../models/timesheet';
 import { Project} from '../models/project';
 import {IMyDateModel} from 'mydatepicker';
 
-// TODO: Sort projects drop down list
-
 @Component({
   selector: 'app-timesheet',
   templateUrl: './timesheet.component.html',
