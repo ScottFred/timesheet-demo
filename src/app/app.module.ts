@@ -20,6 +20,8 @@ import { FooterComponent } from './footer/footer.component';
 import { ProjectComponent } from './project/project.component';
 import { ErrorHandlerService } from './services/error-handler.service';
 
+import { AuthenticationGuard } from './guards/authentication.guard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +45,7 @@ import { ErrorHandlerService } from './services/error-handler.service';
     AuthenticationService,
     ProjectService,
     TimesheetService,
+    AuthenticationGuard,
     { provide: ErrorHandler, useClass: ErrorHandlerService }
   ],
   bootstrap: [AppComponent]
