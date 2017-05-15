@@ -24,7 +24,7 @@
           return res.status(401).end();
         }
         console.log('Authentication successful');
-        return res.json({token: account.createJwt()});
+        return res.send(account.createJwt());
       })(req, res, next);
     });
   }
