@@ -4,10 +4,11 @@ import { ProjectsComponent } from './projects.component';
 import {FormsModule} from '@angular/forms';
 import {ProjectComponent} from '../project/project.component';
 import {AuthenticationService} from '../services/authentication.service';
-import {HttpModule} from '@angular/http';
+import {HttpModule, XHRBackend} from '@angular/http';
 import {ProjectService} from '../services/project.service';
 import {ClaimsService} from '../services/claims.service';
 import {TokenService} from '../services/token.service';
+import {MockBackend} from '@angular/http/testing';
 
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
@@ -26,7 +27,8 @@ describe('ProjectsComponent', () => {
       providers: [
         ClaimsService,
         TokenService,
-        ProjectService
+        ProjectService,
+        { provide: XHRBackend, useClass: MockBackend }
       ]
     })
     .compileComponents();

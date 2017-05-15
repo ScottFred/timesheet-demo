@@ -1,8 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { TimesheetService } from './timesheet.service';
-import {HttpModule} from '@angular/http';
+import {HttpModule, XHRBackend} from '@angular/http';
 import {TokenService} from './token.service';
+import {MockBackend} from '@angular/http/testing';
 
 describe('TimesheetService', () => {
   beforeEach(() => {
@@ -12,7 +13,8 @@ describe('TimesheetService', () => {
       ],
       providers: [
         TimesheetService,
-        TokenService
+        TokenService,
+        { provide: XHRBackend, useClass: MockBackend }
       ]
     });
   });

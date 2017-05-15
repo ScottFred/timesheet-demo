@@ -3,9 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AuthenticationService} from '../services/authentication.service';
-import {HttpModule} from '@angular/http';
+import {HttpModule, XHRBackend} from '@angular/http';
 import {TokenService} from '../services/token.service';
 import {ClaimsService} from '../services/claims.service';
+import {MockBackend} from '@angular/http/testing';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -23,7 +24,8 @@ describe('HeaderComponent', () => {
       providers: [
         AuthenticationService,
         TokenService,
-        ClaimsService
+        ClaimsService,
+        { provide: XHRBackend, useClass: MockBackend }
       ]
     })
     .compileComponents();

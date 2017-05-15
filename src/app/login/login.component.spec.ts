@@ -4,9 +4,10 @@ import { LoginComponent } from './login.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
-import {HttpModule} from '@angular/http';
+import {HttpModule, XHRBackend} from '@angular/http';
 import {ClaimsService} from '../services/claims.service';
 import {TokenService} from '../services/token.service';
+import {MockBackend} from '@angular/http/testing';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -25,7 +26,8 @@ describe('LoginComponent', () => {
       providers: [
         AuthenticationService,
         TokenService,
-        ClaimsService
+        ClaimsService,
+        { provide: XHRBackend, useClass: MockBackend }
       ]
     })
     .compileComponents();
