@@ -7,8 +7,9 @@ import {HttpModule} from '@angular/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {MyDatePickerModule} from 'mydatepicker';
 import {FormsModule} from '@angular/forms';
-import {AuthenticationService} from '../services/authentication.service';
 import {ProjectService} from '../services/project.service';
+import {ClaimsService} from '../services/claims.service';
+import {TokenService} from '../services/token.service';
 
 describe('TimesheetsComponent', () => {
   let component: TimesheetsComponent;
@@ -29,7 +30,8 @@ describe('TimesheetsComponent', () => {
       providers: [
         TimesheetService,
         ProjectService,
-        AuthenticationService
+        ClaimsService,
+        TokenService
       ]
     })
     .compileComponents();

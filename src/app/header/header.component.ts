@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TokenService} from '../services/token.service';
 import {AuthenticationService} from '../services/authentication.service';
 
 @Component({
@@ -8,9 +9,16 @@ import {AuthenticationService} from '../services/authentication.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private tokenService: TokenService
+  ) { }
 
   ngOnInit() {
+  }
+
+  isAuthenticated() {
+    return this.tokenService.hasToken();
   }
 
   onLogoutClick() {

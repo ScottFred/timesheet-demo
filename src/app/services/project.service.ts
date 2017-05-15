@@ -1,9 +1,7 @@
 import {Injectable, isDevMode} from '@angular/core';
-import {AuthenticationService} from './authentication.service';
 import { Headers, Http, RequestOptionsArgs } from '@angular/http';
-
 import 'rxjs/add/operator/toPromise';
-
+import {TokenService} from './token.service';
 import { Project } from '../models/project';
 
 @Injectable()
@@ -12,7 +10,7 @@ export class ProjectService {
 
   constructor(
     private http: Http,
-    private authenticationService: AuthenticationService
+    private tokenService: TokenService
   ) { }
 
   getProjects(): Promise<Project[]> {
@@ -53,7 +51,7 @@ export class ProjectService {
 
   private getRequestOptions(): RequestOptionsArgs {
     return {
-      headers: new Headers({ 'Authorization': `JWT ${this.authenticationService.getToken()}` })
+      headers: new Headers({ 'Authorization': `JWT ${this.tokenService.getToken()}` })
     };
   }
 

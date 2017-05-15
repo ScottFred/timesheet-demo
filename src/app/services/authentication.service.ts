@@ -1,70 +1,40 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { Http } from '@angular/http';
-import * as jwt_decode from 'jwt-decode';
-
 import 'rxjs/add/operator/toPromise';
+import {TokenService} from './token.service';
+import {ClaimsService} from './claims.service';
 
 @Injectable()
 export class AuthenticationService {
-  private claims: any;
   private apiServer = isDevMode ? 'http://localhost:3000' : '';
 
-  constructor(private http: Http) { }
-
-  getClaims(): any {
-    const token = this.getToken();
-    if (!token) {
-      return {};
-    }
-    this.claims = this.claims || jwt_decode(token);
-    return this.claims;
-  }
-
-  clearClaims(): void {
-    this.claims = null;
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
+  constructor(
+    private http: Http,
+    private tokenService: TokenService,
+    private claimsService: ClaimsService
+  ) { }
 
   login(username: string, password: string): Promise<void> {
     return this.http.post(`${this.apiServer}/api/auth/login`, { username, password })
       .toPromise()
       .then(response => {
-        this.setToken(response.text());
+        this.tokenService.setToken(response.text());
       })
       .catch(this.handleError);
   }
 
   logout(): void {
-    this.clearToken();
-    this.clearClaims();
+    this.tokenService.clearToken();
+    this.claimsService.clearClaims();
   }
 
   register(username: string, password: string): Promise<void> {
     return this.http.post(`${this.apiServer}/api/auth/user`, { username, password })
       .toPromise()
       .then(response => {
-        this.setToken(response.text());
+        this.tokenService.setToken(response.text());
       })
       .catch(this.handleError);
-  }
-
-  private setToken(token: string): void {
-    if (token) {
-      sessionStorage.authToken = token;
-    } else {
-      delete sessionStorage.authToken;
-    }
-  }
-
-  private clearToken(): void {
-    this.setToken(null);
-  }
-
-  getToken(): string {
-    return sessionStorage.authToken;
   }
 
   private handleError(error: any): Promise<any> {

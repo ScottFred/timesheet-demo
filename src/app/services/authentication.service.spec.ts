@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { AuthenticationService } from './authentication.service';
 import {HttpModule} from '@angular/http';
+import {TokenService} from './token.service';
+import {ClaimsService} from './claims.service';
 
 describe('AuthenticationService', () => {
   beforeEach(() => {
@@ -10,7 +11,9 @@ describe('AuthenticationService', () => {
         HttpModule
       ],
       providers: [
-        AuthenticationService
+        AuthenticationService,
+        ClaimsService,
+        TokenService
       ]
     });
   });

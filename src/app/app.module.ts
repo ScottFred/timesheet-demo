@@ -21,6 +21,8 @@ import { ProjectComponent } from './project/project.component';
 import { ErrorHandlerService } from './services/error-handler.service';
 
 import { AuthenticationGuard } from './guards/authentication.guard';
+import {TokenService} from './services/token.service';
+import {ClaimsService} from './services/claims.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { AuthenticationGuard } from './guards/authentication.guard';
   ],
   providers: [
     AuthenticationService,
+    TokenService,
+    ClaimsService,
     ProjectService,
     TimesheetService,
     AuthenticationGuard,

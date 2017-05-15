@@ -4,6 +4,8 @@ import { HeaderComponent } from './header.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AuthenticationService} from '../services/authentication.service';
 import {HttpModule} from '@angular/http';
+import {TokenService} from '../services/token.service';
+import {ClaimsService} from '../services/claims.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -19,7 +21,9 @@ describe('HeaderComponent', () => {
         HeaderComponent
       ],
       providers: [
-        AuthenticationService
+        AuthenticationService,
+        TokenService,
+        ClaimsService
       ]
     })
     .compileComponents();

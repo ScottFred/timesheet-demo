@@ -5,6 +5,8 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
 import {HttpModule} from '@angular/http';
+import {ClaimsService} from '../services/claims.service';
+import {TokenService} from '../services/token.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -21,7 +23,9 @@ describe('LoginComponent', () => {
         LoginComponent
       ],
       providers: [
-        AuthenticationService
+        AuthenticationService,
+        TokenService,
+        ClaimsService
       ]
     })
     .compileComponents();

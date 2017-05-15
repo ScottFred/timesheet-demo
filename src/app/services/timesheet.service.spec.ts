@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { TimesheetService } from './timesheet.service';
 import {HttpModule} from '@angular/http';
-import {AuthenticationService} from './authentication.service';
+import {TokenService} from './token.service';
 
 describe('TimesheetService', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('TimesheetService', () => {
       ],
       providers: [
         TimesheetService,
-        AuthenticationService
+        TokenService
       ]
     });
   });

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {AuthenticationService} from '../services/authentication.service';
+import {TokenService} from '../services/token.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private tokenService: TokenService,
     private router: Router
   ) { }
 
@@ -15,7 +15,7 @@ export class AuthenticationGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-      if (!this.authenticationService.isAuthenticated()) {
+      if (!this.tokenService.hasToken()) {
         this.router.navigate(['/login']);
       } else {
         return true;

@@ -6,6 +6,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import {AuthenticationService} from './services/authentication.service';
 import {HttpModule} from '@angular/http';
+import {TokenService} from './services/token.service';
+import {ClaimsService} from './services/claims.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -20,7 +22,9 @@ describe('AppComponent', () => {
         FooterComponent,
       ],
       providers: [
-        AuthenticationService
+        AuthenticationService,
+        TokenService,
+        ClaimsService
       ]
     }).compileComponents();
   }));

@@ -11,7 +11,7 @@
       <a class="navbar-brand" [routerLink]="['/']">Timesheet Demo App</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-left" *ngIf="authenticationService.isAuthenticated()">
+      <ul class="nav navbar-nav navbar-left" *ngIf="isAuthenticated()">
         <li>
           <a [routerLink]="['/']">Timesheets</a>
         </li>
@@ -20,7 +20,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="authenticationService.isAuthenticated(); else login">
+        <li *ngIf="isAuthenticated(); else login">
           <a [routerLink]="['/login']" (click)="onLogoutClick()" >Logout</a>
         </li>
         <ng-template #login>

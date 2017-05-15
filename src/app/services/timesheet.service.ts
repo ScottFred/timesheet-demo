@@ -1,10 +1,8 @@
 import {Injectable, isDevMode} from '@angular/core';
-import {AuthenticationService} from './authentication.service';
 import { Headers, Http, RequestOptionsArgs } from '@angular/http';
-
 import 'rxjs/add/operator/toPromise';
-
 import { Timesheet } from '../models/timesheet';
+import {TokenService} from './token.service';
 
 @Injectable()
 export class TimesheetService {
@@ -12,7 +10,7 @@ export class TimesheetService {
 
   constructor(
     private http: Http,
-    private authenticationService: AuthenticationService
+    private tokenService: TokenService
   ) { }
 
   getTimesheets(): Promise<Timesheet[]> {
@@ -53,7 +51,7 @@ export class TimesheetService {
 
   private getRequestOptions(): RequestOptionsArgs {
     return {
-      headers: new Headers({ 'Authorization': `JWT ${this.authenticationService.getToken()}` })
+      headers: new Headers({ 'Authorization': `JWT ${this.tokenService.getToken()}` })
     };
   }
 

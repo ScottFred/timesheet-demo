@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from '../services/authentication.service';
 import {ProjectService} from '../services/project.service';
 import {Project} from '../models/project';
+import {ClaimsService} from '../services/claims.service';
 
 // TODO: Sort projects
 
@@ -18,12 +18,12 @@ export class ProjectsComponent implements OnInit {
   isSaving = false;
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private claimsService: ClaimsService,
     private projectService: ProjectService
   ) { }
 
   ngOnInit() {
-    const username = this.authenticationService.getClaims().username;
+    const username = this.claimsService.getClaims().username;
     this.title = `${username}'s Projects`;
 
     this.projectService.getProjects()

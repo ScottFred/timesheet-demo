@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { ProjectService } from './project.service';
 import {HttpModule} from '@angular/http';
-import {AuthenticationService} from './authentication.service';
+import {TokenService} from './token.service';
 
 describe('ProjectService', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('ProjectService', () => {
       ],
       providers: [
         ProjectService,
-        AuthenticationService
+        TokenService
       ]
     });
   });

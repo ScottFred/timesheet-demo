@@ -6,6 +6,8 @@ import {ProjectComponent} from '../project/project.component';
 import {AuthenticationService} from '../services/authentication.service';
 import {HttpModule} from '@angular/http';
 import {ProjectService} from '../services/project.service';
+import {ClaimsService} from '../services/claims.service';
+import {TokenService} from '../services/token.service';
 
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
@@ -22,7 +24,8 @@ describe('ProjectsComponent', () => {
         ProjectComponent
       ],
       providers: [
-        AuthenticationService,
+        ClaimsService,
+        TokenService,
         ProjectService
       ]
     })

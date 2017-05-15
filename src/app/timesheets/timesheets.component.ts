@@ -3,7 +3,7 @@ import {TimesheetService} from '../services/timesheet.service';
 import {Timesheet} from '../models/timesheet';
 import {Project} from '../models/project';
 import {ProjectService} from '../services/project.service';
-import {AuthenticationService} from '../services/authentication.service';
+import {ClaimsService} from '../services/claims.service';
 
 // TODO: Sort timesheets
 
@@ -21,12 +21,12 @@ export class TimesheetsComponent implements OnInit {
   isSaving = false;
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private claimsService: ClaimsService,
     private projectService: ProjectService,
     private timesheetService: TimesheetService) { }
 
   ngOnInit() {
-    const username = this.authenticationService.getClaims().username;
+    const username = this.claimsService.getClaims().username;
     this.title = `${username}'s Timesheets`;
 
     this.projectService.getProjects()
