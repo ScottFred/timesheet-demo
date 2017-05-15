@@ -1,11 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { TimesheetService } from './timesheet.service';
+import {HttpModule} from '@angular/http';
+import {AuthenticationService} from './authentication.service';
 
 describe('TimesheetService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TimesheetService]
+      imports: [
+        HttpModule
+      ],
+      providers: [
+        TimesheetService,
+        AuthenticationService
+      ]
     });
   });
 
