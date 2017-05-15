@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="main-activity pull-right" *ngIf="isLoading">
+    <img src="/assets/images/ajax-loader.gif"/>
+  </div>
+  <h1>{{title}}</h1>
+  <ng-container *ngFor="let t of timesheets">
+    <app-timesheet
+      [timesheet]="t"
+      [projects]="projects"
+      [isEditing]="isEditingTimesheet(t)"
+      [canEdit]="!isEditingTimesheet()"
+      (beginEdit)="onTimesheetBeginEdit(t)"
+      (endEdit)="onTimesheetEndEdit(t, $event)"
+      (delete)="onTimesheetDelete(t)"
+    ></app-timesheet>
+  </ng-container>
+  <br/>
+  <div class="text-center" *ngIf="this.projects && this.projects.length > 0 && !isEditingTimesheet()">
+    <a class="clickable" *ngIf="!isLoading" (click)="onAddWeekClick()">Add Week</a>
+  </div>
+  <div class="text-center" *ngIf="this.projects && this.projects.length === 0">
+    <div>There are no projects defined yet.</div>
+    <a class="clickable" [routerLink]="['/projects']">Define a project</a>
+  </div>
+</div>

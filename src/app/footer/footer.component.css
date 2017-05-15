@@ -1,0 +1,13 @@
+.footer {
+  clear:both;
+  border-top: 1px solid #eee;
+  background: #f7f7f7;
+  padding: 10px;
+}
+
+.bottom-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

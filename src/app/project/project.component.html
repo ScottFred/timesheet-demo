@@ -1,0 +1,22 @@
+<ng-container *ngIf="isEditing; else readonly">
+  <td>
+    <input class="form-control input-sm" type="text" [(ngModel)]="project.name"/>
+  </td>
+  <td class="edit-action">
+    <a class="clickable edit-action" (click)="endEdit.emit(true)">Save</a>
+    <a class="clickable edit-action" (click)="endEdit.emit(false)">Cancel</a>
+    <a class="clickable edit-action" (click)="delete.emit()">Delete</a>
+  </td>
+</ng-container>
+<ng-template #readonly>
+  <td>
+    <ng-container *ngIf="canEdit; else noedit">
+      <a class="clickable" (click)="beginEdit.emit()">{{project.name}}</a>
+    </ng-container>
+    <ng-template #noedit>
+      {{project.name}}
+    </ng-template>
+  </td>
+  <td class="edit-action">
+  </td>
+</ng-template>

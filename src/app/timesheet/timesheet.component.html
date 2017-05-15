@@ -1,0 +1,157 @@
+<table class="table">
+  <tbody>
+
+    <tr class="header">
+      <th>Week Ending</th>
+      <th colspan="2">Project</th>
+      <th class="text-center">Sun</th>
+      <th class="text-center">Mon</th>
+      <th class="text-center">Tue</th>
+      <th class="text-center">Wed</th>
+      <th class="text-center">Thu</th>
+      <th class="text-center">Fri</th>
+      <th class="text-center">Sat</th>
+      <th class="text-center">Total</th>
+    </tr>
+
+    <ng-container *ngIf="isEditing; else readonly">
+
+      <tr class="new-week">
+        <td class="week-ending" [attr.rowspan]="timesheet.projects.length + 3">
+          <div>
+            <input class="form-control input-sm" placeholder="MM/DD/YYYY"
+                   [(ngModel)]="timesheet.weekEnding" />
+          </div>
+          <div>
+            <a class="clickable" (click)="endEdit.emit(true)">Save</a>
+            <a class="clickable" (click)="endEdit.emit(false)">Cancel</a>
+            <a class="clickable" (click)="delete.emit()">Delete</a>
+          </div>
+        </td>
+        <td class="row-action">
+          <a class="clickable" title="Delete Row" (click)="onDeleteTimesheetProjectClick(timesheet.projects[0])"><i class="fa fa-minus-circle"></i></a>
+        </td>
+        <td class="project">
+          <select class="form-control input-sm" placeholder="projects" [(ngModel)]="timesheet.projects[0].name">
+            <option></option>
+            <option *ngFor="let p of projects">{{p.name}}</option>
+          </select>
+        </td>
+        <td class="hours" *ngFor="let day of [0,1,2,3,4,5,6]">
+          <input class="form-control input-sm" type="number" min="0" [(ngModel)]="timesheet.projects[0].hours[day]"/>
+        </td>
+        <td class="hours">
+          <p>
+            {{calcTotalHoursByTimesheetProject(timesheet.projects[0])}}
+          </p>
+        </td>
+      </tr>
+
+      <tr *ngFor="let tp of timesheet.projects.slice(1)">
+        <td class="row-action">
+          <a class="clickable" title="Delete Row" (click)="onDeleteTimesheetProjectClick(tp)"><i class="fa fa-minus-circle"></i></a>
+        </td>
+        <td class="project">
+          <select class="form-control input-sm" [(ngModel)]="tp.name">
+            <option></option>
+            <option *ngFor="let p of projects">{{p.name}}</option>
+          </select>
+        </td>
+        <td class="hours" *ngFor="let day of [0,1,2,3,4,5,6]">
+          <input class="form-control input-sm" type="number" min="0" [(ngModel)]="tp.hours[day]"/>
+        </td>
+        <td class="hours">
+          <p>
+            {{calcTotalHoursByTimesheetProject(tp)}}
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="row-action">
+          <a class="clickable" title="Add Row" (click)="onAddTimesheetProjectClick()"><i class="fa fa-plus-circle"></i></a>
+        </td>
+        <td colspan="9">
+        </td>
+      </tr>
+
+      <tr>
+        <td class="project" colspan="2">
+          <p>Total</p>
+        </td>
+        <td class="hours" *ngFor="let day of [0,1,2,3,4,5,6]">
+          <p>
+            {{calcTotalHoursByDay(day)}}
+          </p>
+        </td>
+        <td class="hours">
+          <p>
+            {{calcTotalHours()}}
+          </p>
+        </td>
+      </tr>
+
+    </ng-container>
+
+    <ng-template #readonly>
+
+      <tr class="new-week">
+        <td class="week-ending" [attr.rowspan]="timesheet.projects.length + 2">
+          <div>
+            <p>{{timesheet.weekEnding}}</p>
+          </div>
+          <div *ngIf="canEdit">
+            <a class="clickable" (click)="beginEdit.emit()">Edit</a>
+          </div>
+        </td>
+        <td class="project" colspan="2">
+          <p>{{timesheet.projects[0].name}}</p>
+        </td>
+        <td class="hours" *ngFor="let day of [0,1,2,3,4,5,6]">
+          <p>
+            {{timesheet.projects[0].hours[day]}}
+          </p>
+        </td>
+        <td class="hours">
+          <p>
+            {{calcTotalHoursByTimesheetProject(timesheet.projects[0])}}
+          </p>
+        </td>
+      </tr>
+
+      <tr *ngFor="let tp of timesheet.projects.slice(1)">
+        <td class="project" colspan="2">
+          <p>{{tp.name}}</p>
+        </td>
+        <td class="hours" *ngFor="let day of [0,1,2,3,4,5,6]">
+          <p>
+            {{tp.hours[day]}}
+          </p>
+        </td>
+        <td class="hours">
+          <p>
+            {{calcTotalHoursByTimesheetProject(tp)}}
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="project" colspan="2">
+          <p>Total</p>
+        </td>
+        <td class="hours" *ngFor="let day of [0,1,2,3,4,5,6]">
+          <p>
+            {{calcTotalHoursByDay(day)}}
+          </p>
+        </td>
+        <td class="hours">
+          <p>
+            {{calcTotalHours(timesheet)}}
+          </p>
+        </td>
+      </tr>
+
+    </ng-template>
+
+  </tbody>
+</table>
