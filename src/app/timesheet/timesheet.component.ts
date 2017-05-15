@@ -97,6 +97,4 @@ export class TimesheetComponent implements OnInit {
     }
     return result;
   }
-
-
 }

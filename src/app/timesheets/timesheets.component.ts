@@ -4,8 +4,7 @@ import {Timesheet} from '../models/timesheet';
 import {Project} from '../models/project';
 import {ProjectService} from '../services/project.service';
 import {ClaimsService} from '../services/claims.service';
-
-// TODO: Sort timesheets
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-timesheets',
@@ -31,10 +30,10 @@ export class TimesheetsComponent implements OnInit {
 
     this.projectService.getProjects()
       .then(projects => {
-        this.projects = projects;
+        this.projects = _.sortBy(projects, x => x.name.toLowerCase());
         this.timesheetService.getTimesheets()
           .then(timesheets => {
-            this.timesheets = timesheets;
+            this.timesheets = _.sortBy(timesheets, x => new Date(x.weekEnding));
             this.isLoading = false;
           });
       });
@@ -68,6 +67,7 @@ export class TimesheetsComponent implements OnInit {
       this.timesheetService.saveTimesheet(timesheet)
         .then(() => {
           this.editTimesheet = null;
+          this.timesheets = _.sortBy(this.timesheets, x => new Date(x.weekEnding));
           this.isSaving = false;
         });
     } else {

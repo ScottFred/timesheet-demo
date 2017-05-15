@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ProjectService} from '../services/project.service';
 import {Project} from '../models/project';
 import {ClaimsService} from '../services/claims.service';
-
-// TODO: Sort projects
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-projects',
@@ -28,7 +27,7 @@ export class ProjectsComponent implements OnInit {
 
     this.projectService.getProjects()
       .then(projects => {
-        this.projects = projects;
+        this.projects = _.sortBy(projects, x => x.name.toLowerCase());
         this.isLoading = false;
       });
   }
@@ -57,6 +56,7 @@ export class ProjectsComponent implements OnInit {
       this.projectService.saveProject(project)
         .then(() => {
           this.editProject = null;
+          this.projects = _.sortBy(this.projects, x => x.name.toLowerCase());
           this.isSaving = false;
         });
     } else {
