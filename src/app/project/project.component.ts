@@ -2,7 +2,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {Project} from '../models/project';
 
 @Component({
-  selector: '[app-project]',
+  /* tslint:disable */ selector: '[app-project]', /* tslint:enable */
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.css']
 })
